@@ -207,27 +207,52 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-              <div className="form-group">
-                <label className="form-label">Category</label>
-                <select className="form-select" value={category} onChange={(e) => setCategory(e.target.value)}>
-                  <option value="Field Trip">FIELD TRIP</option>
-                  <option value="Class Event">CLASS EVENT</option>
-                  <option value="School Event">SCHOOL EVENT</option>
-                  <option value="For Teacher">FOR TEACHER</option>
-                  <option value="Other">OTHER</option>
-                </select>
+            {/* CATEGORY SELECTOR CHIPS */}
+            <div className="form-group">
+              <label className="form-label">Category *</label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                {[
+                  { id: 'Field Trip', label: 'FIELD TRIP', color: '#10b981' },
+                  { id: 'Class Event', label: 'CLASS EVENT', color: '#8b5cf6' },
+                  { id: 'School Event', label: 'SCHOOL EVENT', color: '#06b6d4' },
+                  { id: 'For Teacher', label: 'FOR TEACHER', color: '#f43f5e' },
+                  { id: 'Other', label: 'OTHER', color: '#6366f1' }
+                ].map((cat) => {
+                  const isSelected = category.toLowerCase() === cat.id.toLowerCase();
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => setCategory(cat.id)}
+                      style={{
+                        padding: '0.5rem 0.85rem',
+                        background: cat.color,
+                        color: '#ffffff',
+                        border: isSelected ? '2px solid var(--text-main)' : '2px solid transparent',
+                        fontWeight: 800,
+                        fontSize: '0.75rem',
+                        letterSpacing: '0.5px',
+                        cursor: 'pointer',
+                        opacity: isSelected ? 1 : 0.6,
+                        boxShadow: isSelected ? '0 0 8px rgba(0,0,0,0.3)' : 'none',
+                        borderRadius: 0
+                      }}
+                    >
+                      {isSelected ? `✓ ${cat.label}` : cat.label}
+                    </button>
+                  );
+                })}
               </div>
+            </div>
 
-              <div className="form-group">
-                <label className="form-label">Posted By</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  value={author}
-                  onChange={(e) => setAuthor(e.target.value)}
-                />
-              </div>
+            <div className="form-group">
+              <label className="form-label">Posted By</label>
+              <input
+                type="text"
+                className="form-input"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+              />
             </div>
 
             {/* DATE & TIME (Required if calendar or both) */}
