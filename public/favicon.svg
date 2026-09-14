@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" width="512" height="512">
+  <g fill="#FFB800">
+    <!-- Head -->
+    <ellipse cx="64" cy="22" rx="7" ry="12" />
+    <!-- Star-Pencil Body -->
+    <path d="M 27 4 L 21 16 C 26 21 34 26 38 31 C 33 42 27 60 4 96 C 18 84 32 72 40 64 C 47 72 68 83 95 72 C 83 67 73 57 58 48 C 73 40 88 33 96 28 C 80 34 68 39 54 38 C 45 34 35 24 30 16 Z" />
+    <!-- Pencil Tip -->
+    <polygon points="27 4 21 16 30 16" />
+  </g>
+</svg>

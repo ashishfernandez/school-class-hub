@@ -7,7 +7,7 @@ export default function Header({ classNameTitle, onOpenDomainGuide, themeMode, o
     <header className="sticky-header">
       <div className="brand-badge">
         <div className="brand-icon-wrapper">
-          <School size={24} />
+          <img src="/favicon.svg" alt="GISSVROOS Logo" style={{ width: '28px', height: '28px' }} />
         </div>
         <div>
           <h1 className="brand-title">GISSVROOS</h1>
