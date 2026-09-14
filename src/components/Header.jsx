@@ -23,7 +23,7 @@ export default function Header({ classNameTitle, onOpenAdminPortal, themeMode, o
 
         <button className="btn-primary" onClick={onOpenAdminPortal} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <ShieldCheck size={18} />
-          <span>Admin Portal</span>
+          <span>Parent Rep Admin Portal</span>
         </button>
       </div>
     </header>
