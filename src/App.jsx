@@ -45,6 +45,28 @@ export default function App() {
     saveStoredAnnouncements(updated);
   };
 
+  // Reorder an announcement up/down; this order is reflected on the main page
+  const handleReorderAnnouncement = (id, direction) => {
+    const index = announcements.findIndex(a => a.id === id);
+    if (index === -1) return;
+    const newIndex = direction === 'up' ? index - 1 : index + 1;
+    if (newIndex < 0 || newIndex >= announcements.length) return;
+    const updated = [...announcements];
+    const [moved] = updated.splice(index, 1);
+    updated.splice(newIndex, 0, moved);
+    setAnnouncements(updated);
+    saveStoredAnnouncements(updated);
+  };
+
+  // Toggle the (cosmetic) pinned badge shown on the main page tile
+  const handleTogglePinAnnouncement = (id) => {
+    const updated = announcements.map(a =>
+      a.id === id ? { ...a, pinned: !a.pinned } : a
+    );
+    setAnnouncements(updated);
+    saveStoredAnnouncements(updated);
+  };
+
   // Handlers for Events
   const handleAddEvent = (newEvent) => {
     const updated = [...events, newEvent];
@@ -126,6 +148,8 @@ export default function App() {
         onSaveEvent={handleAddEvent}
         announcements={announcements}
         onDeleteAnnouncement={handleDeleteAnnouncement}
+        onReorderAnnouncement={handleReorderAnnouncement}
+        onTogglePinAnnouncement={handleTogglePinAnnouncement}
         events={events}
         onDeleteEvent={handleDeleteEvent}
       />

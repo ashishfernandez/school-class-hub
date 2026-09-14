@@ -9,7 +9,9 @@ export default function AnnouncementsSection({ announcements, onAddClick }) {
            item.content.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
-  const pinnedAnnouncement = announcements.find(a => a.pinned) || announcements[0];
+  // Ticker shows the top announcement by the admin-controlled order (pinning is
+  // cosmetic only and does not move an announcement to the front).
+  const featuredAnnouncement = announcements[0];
 
   const getBadgeClass = (category, priority) => {
     const cat = (category || '').toLowerCase();
@@ -24,16 +26,16 @@ export default function AnnouncementsSection({ announcements, onAddClick }) {
   return (
     <section className="announcements-container" style={{ marginBottom: '3rem' }}>
       {/* Top Banner Alert Ticker */}
-      {pinnedAnnouncement && (
+      {featuredAnnouncement && (
         <div className="announcement-ticker">
           <div className="ticker-content">
-            <span className="badge badge-urgent" style={{ display: 'inline-flex', alignItems: 'center' }} title="Pinned Announcement" aria-label="Pinned Announcement">
+            <span className="badge badge-urgent" style={{ display: 'inline-flex', alignItems: 'center' }} title="Featured Announcement" aria-label="Featured Announcement">
               <Pin size={12} />
             </span>
-            <span><strong>{pinnedAnnouncement.title}:</strong> {pinnedAnnouncement.content}</span>
+            <span><strong>{featuredAnnouncement.title}:</strong> {featuredAnnouncement.content}</span>
           </div>
           <div style={{ fontSize: '0.8rem', opacity: 0.8, whiteSpace: 'nowrap' }}>
-            By {pinnedAnnouncement.author} • {pinnedAnnouncement.date}
+            By {featuredAnnouncement.author} • {featuredAnnouncement.date}
           </div>
         </div>
       )}

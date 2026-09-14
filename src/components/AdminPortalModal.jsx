@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { X, Megaphone, Calendar as CalendarIcon, ShieldCheck, Lock, Unlock, KeyRound, AlertCircle, Send, Bell, CheckSquare, Trash2, Pin } from 'lucide-react';
+import { X, Megaphone, Calendar as CalendarIcon, ShieldCheck, Lock, Unlock, KeyRound, AlertCircle, Send, Bell, CheckSquare, Trash2, Pin, PinOff, ArrowUp, ArrowDown } from 'lucide-react';
 import { calculateReminderDate, formatDateString } from '../utils/whatsappHelper';
 import confetti from 'canvas-confetti';
 
-export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, onSaveEvent, announcements = [], onDeleteAnnouncement, events = [], onDeleteEvent }) {
+export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, onSaveEvent, announcements = [], onDeleteAnnouncement, onReorderAnnouncement, onTogglePinAnnouncement, events = [], onDeleteEvent }) {
   const [password, setPassword] = useState('');
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -155,7 +155,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                 Authenticated Parent Rep
               </span>
               <button type="button" onClick={handleLock} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}>
-                <Lock size={12} /> Lock Portal
+                <Lock size={12} /> Lock Admin Portal
               </button>
             </div>
 
@@ -348,17 +348,20 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
 
           {/* MANAGE / DELETE ANNOUNCEMENTS (Admin only) */}
           <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border-color)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
               <Megaphone size={18} style={{ color: 'var(--primary)' }} />
               <h4 style={{ fontSize: '1.05rem', fontWeight: 800 }}>Manage Announcements</h4>
               <span className="badge badge-general" style={{ fontSize: '0.7rem' }}>{announcements.length}</span>
             </div>
+            <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+              Use the arrows to set the order shown on the main page. The pin is a cosmetic badge only and does not change the order.
+            </p>
 
             {announcements.length === 0 ? (
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>No announcements posted yet.</p>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', maxHeight: '280px', overflowY: 'auto' }}>
-                {announcements.map((item) => (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', maxHeight: '320px', overflowY: 'auto' }}>
+                {announcements.map((item, index) => (
                   <div
                     key={item.id}
                     style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.75rem', padding: '0.75rem', background: 'var(--bg-secondary)', border: '1px solid var(--border-color)' }}
@@ -375,15 +378,54 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                       <div style={{ fontSize: '0.9rem', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</div>
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>By {item.author} • {item.date}</div>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => onDeleteAnnouncement && onDeleteAnnouncement(item.id)}
-                      className="btn-secondary"
-                      style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '0.4rem 0.6rem', fontSize: '0.75rem', color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.4)' }}
-                      title="Delete announcement"
-                    >
-                      <Trash2 size={14} /> Delete
-                    </button>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexShrink: 0 }}>
+                      {/* Reorder controls */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                        <button
+                          type="button"
+                          onClick={() => onReorderAnnouncement && onReorderAnnouncement(item.id, 'up')}
+                          disabled={index === 0}
+                          className="btn-icon"
+                          style={{ width: '28px', height: '20px', opacity: index === 0 ? 0.35 : 1, cursor: index === 0 ? 'not-allowed' : 'pointer' }}
+                          title="Move up"
+                        >
+                          <ArrowUp size={13} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => onReorderAnnouncement && onReorderAnnouncement(item.id, 'down')}
+                          disabled={index === announcements.length - 1}
+                          className="btn-icon"
+                          style={{ width: '28px', height: '20px', opacity: index === announcements.length - 1 ? 0.35 : 1, cursor: index === announcements.length - 1 ? 'not-allowed' : 'pointer' }}
+                          title="Move down"
+                        >
+                          <ArrowDown size={13} />
+                        </button>
+                      </div>
+
+                      {/* Cosmetic pin toggle */}
+                      <button
+                        type="button"
+                        onClick={() => onTogglePinAnnouncement && onTogglePinAnnouncement(item.id)}
+                        className="btn-icon"
+                        style={{ width: '34px', height: '34px', color: item.pinned ? 'var(--primary)' : 'var(--text-muted)', borderColor: item.pinned ? 'var(--primary)' : 'var(--border-color)' }}
+                        title={item.pinned ? 'Unpin (remove badge)' : 'Pin (show badge on tile)'}
+                      >
+                        {item.pinned ? <PinOff size={15} /> : <Pin size={15} />}
+                      </button>
+
+                      {/* Delete */}
+                      <button
+                        type="button"
+                        onClick={() => onDeleteAnnouncement && onDeleteAnnouncement(item.id)}
+                        className="btn-secondary"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '0.4rem 0.6rem', fontSize: '0.75rem', color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.4)' }}
+                        title="Delete announcement"
+                      >
+                        <Trash2 size={14} /> Delete
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
