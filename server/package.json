@@ -1,0 +1,14 @@
+{
+  "name": "classconnect-whatsapp-scheduler",
+  "version": "1.0.0",
+  "description": "Background 4-day automated WhatsApp reminder service",
+  "main": "whatsapp-scheduler.js",
+  "scripts": {
+    "start": "node whatsapp-scheduler.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "node-cron": "^3.0.3",
+    "twilio": "^5.0.0"
+  }
+}
