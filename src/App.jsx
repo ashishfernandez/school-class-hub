@@ -55,6 +55,12 @@ export default function App() {
     setCalendarFocusDate(`${newEvent.date}#${Date.now()}`);
   };
 
+  const handleDeleteEvent = (id) => {
+    const updated = events.filter(e => e.id !== id);
+    setEvents(updated);
+    saveStoredEvents(updated);
+  };
+
   const handleSelectEvent = (event) => {
     setSelectedEvent(event);
     setIsCreateEventMode(false);
@@ -120,6 +126,8 @@ export default function App() {
         onSaveEvent={handleAddEvent}
         announcements={announcements}
         onDeleteAnnouncement={handleDeleteAnnouncement}
+        events={events}
+        onDeleteEvent={handleDeleteEvent}
       />
 
       <AnnouncementModal

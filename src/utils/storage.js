@@ -32,6 +32,11 @@ export function saveStoredAnnouncements(announcements) {
   localStorage.setItem(KEYS.ANNOUNCEMENTS, JSON.stringify(announcements));
 }
 
+// Legacy demo/sample events seeded by older versions. Purged on load so the
+// calendar starts empty, while any real Parent-Rep-created events (which use
+// timestamp-based ids like `evt-1699999999999`) are preserved.
+const LEGACY_DEMO_EVENT_IDS = ['evt-1', 'evt-2', 'evt-3', 'evt-4', 'evt-5'];
+
 export function getStoredEvents() {
   const data = localStorage.getItem(KEYS.EVENTS);
   if (!data) {
@@ -39,7 +44,14 @@ export function getStoredEvents() {
     return INITIAL_EVENTS;
   }
   try {
-    return JSON.parse(data);
+    const parsed = JSON.parse(data);
+    const cleaned = Array.isArray(parsed)
+      ? parsed.filter(e => !LEGACY_DEMO_EVENT_IDS.includes(e.id))
+      : INITIAL_EVENTS;
+    if (!Array.isArray(parsed) || cleaned.length !== parsed.length) {
+      localStorage.setItem(KEYS.EVENTS, JSON.stringify(cleaned));
+    }
+    return cleaned;
   } catch (e) {
     return INITIAL_EVENTS;
   }

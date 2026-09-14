@@ -3,7 +3,7 @@ import { X, Megaphone, Calendar as CalendarIcon, ShieldCheck, Lock, Unlock, KeyR
 import { calculateReminderDate, formatDateString } from '../utils/whatsappHelper';
 import confetti from 'canvas-confetti';
 
-export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, onSaveEvent, announcements = [], onDeleteAnnouncement }) {
+export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, onSaveEvent, announcements = [], onDeleteAnnouncement, events = [], onDeleteEvent }) {
   const [password, setPassword] = useState('');
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -381,6 +381,48 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                       className="btn-secondary"
                       style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '0.4rem 0.6rem', fontSize: '0.75rem', color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.4)' }}
                       title="Delete announcement"
+                    >
+                      <Trash2 size={14} /> Delete
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* MANAGE / DELETE CALENDAR EVENTS (Admin only) */}
+          <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border-color)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <CalendarIcon size={18} style={{ color: 'var(--primary)' }} />
+              <h4 style={{ fontSize: '1.05rem', fontWeight: 800 }}>Manage Calendar Events</h4>
+              <span className="badge badge-general" style={{ fontSize: '0.7rem' }}>{events.length}</span>
+            </div>
+            <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+              Deleting an event here also removes it from the live calendar.
+            </p>
+
+            {events.length === 0 ? (
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>No calendar events posted yet.</p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', maxHeight: '280px', overflowY: 'auto' }}>
+                {events.map((evt) => (
+                  <div
+                    key={evt.id}
+                    style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.75rem', padding: '0.75rem', background: 'var(--bg-secondary)', border: '1px solid var(--border-color)' }}
+                  >
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem', flexWrap: 'wrap' }}>
+                        <span className="badge badge-general" style={{ fontSize: '0.65rem' }}>{evt.category}</span>
+                      </div>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{evt.title}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>{evt.date}{evt.time ? ` • ${evt.time}` : ''}{evt.location ? ` • ${evt.location}` : ''}</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => onDeleteEvent && onDeleteEvent(evt.id)}
+                      className="btn-secondary"
+                      style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '0.4rem 0.6rem', fontSize: '0.75rem', color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.4)' }}
+                      title="Delete event"
                     >
                       <Trash2 size={14} /> Delete
                     </button>
