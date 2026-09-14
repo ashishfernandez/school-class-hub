@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import { Megaphone, Pin, Search, Plus, Bell, Calendar, Sparkles, Filter } from 'lucide-react';
 
+const MONTHS_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// Format a 'YYYY-MM-DD' string as 'Mmm DD, YYYY' (e.g. "Sep 12, 2026")
+const formatTileDate = (dateStr) => {
+  if (!dateStr) return '';
+  const [y, m, d] = dateStr.split('-').map(Number);
+  if (!y || !m || !d) return dateStr;
+  return `${MONTHS_ABBR[m - 1]} ${String(d).padStart(2, '0')}, ${y}`;
+};
+
 export default function AnnouncementsSection({ announcements, onAddClick }) {
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -99,7 +109,7 @@ export default function AnnouncementsSection({ announcements, onAddClick }) {
 
               <div className="card-footer">
                 <span>By <strong>{item.author}</strong></span>
-                <span>{item.date}</span>
+                <span>{formatTileDate(item.date)}</span>
               </div>
             </div>
           ))
