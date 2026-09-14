@@ -211,13 +211,11 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
               <div className="form-group">
                 <label className="form-label">Category</label>
                 <select className="form-select" value={category} onChange={(e) => setCategory(e.target.value)}>
-                  <option value="Field Trip">Field Trip</option>
-                  <option value="Party">Class Party</option>
-                  <option value="Homework">Homework / Project</option>
-                  <option value="Exam">Exam / Quiz</option>
-                  <option value="Meeting">Parent Meeting</option>
-                  <option value="General">General Notice</option>
-                  <option value="Urgent">Urgent Alert</option>
+                  <option value="Field Trip">FIELD TRIP</option>
+                  <option value="Class Event">CLASS EVENT</option>
+                  <option value="School Event">SCHOOL EVENT</option>
+                  <option value="For Teacher">FOR TEACHER</option>
+                  <option value="Other">OTHER</option>
                 </select>
               </div>
 

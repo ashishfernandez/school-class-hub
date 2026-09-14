@@ -4,7 +4,6 @@ import AnnouncementsSection from './components/AnnouncementsSection';
 import AnnouncementModal from './components/AnnouncementModal';
 import CalendarSection from './components/CalendarSection';
 import EventModal from './components/EventModal';
-import WhatsAppCenter from './components/WhatsAppCenter';
 import AdminPortalModal from './components/AdminPortalModal';
 
 import {
@@ -104,13 +103,6 @@ export default function App() {
         <CalendarSection
           events={events}
           onSelectEvent={handleSelectEvent}
-        />
-
-        {/* AUTOMATED WHATSAPP REMINDER CONTROL DASHBOARD */}
-        <WhatsAppCenter
-          events={events}
-          settings={settings}
-          onUpdateSettings={handleUpdateSettings}
         />
       </main>
 

@@ -17,11 +17,12 @@ export default function AnnouncementsSection({ announcements, onAddClick, onDele
   const pinnedAnnouncement = announcements.find(a => a.pinned) || announcements[0];
 
   const getBadgeClass = (category, priority) => {
-    if (priority === 'urgent' || category.toLowerCase() === 'urgent') return 'badge-urgent';
-    if (category.toLowerCase() === 'homework') return 'badge-homework';
-    if (category.toLowerCase() === 'field trip') return 'badge-trip';
-    if (category.toLowerCase() === 'party') return 'badge-party';
-    return 'badge-general';
+    const cat = (category || '').toLowerCase();
+    if (cat === 'field trip') return 'badge-field-trip';
+    if (cat === 'class event') return 'badge-class-event';
+    if (cat === 'school event') return 'badge-school-event';
+    if (cat === 'for teacher') return 'badge-for-teacher';
+    return 'badge-other';
   };
 
   return (

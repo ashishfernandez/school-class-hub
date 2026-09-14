@@ -8,7 +8,7 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
   const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'list'
   const [categoryFilter, setCategoryFilter] = useState('all');
 
-  const categories = ['all', 'Field Trip', 'Party', 'Exam', 'Meeting', 'Exhibition'];
+  const categories = ['all', 'Field Trip', 'Class Event', 'School Event', 'For Teacher', 'Other'];
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -47,12 +47,12 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
   };
 
   const getCategoryColor = (category) => {
-    switch (category.toLowerCase()) {
+    switch ((category || '').toLowerCase()) {
       case 'field trip': return { bg: 'rgba(16, 185, 129, 0.18)', border: '#10b981', color: '#10b981' };
-      case 'party': return { bg: 'rgba(236, 72, 153, 0.18)', border: '#ec4899', color: '#ec4899' };
-      case 'exam': return { bg: 'rgba(239, 68, 68, 0.18)', border: '#ef4444', color: '#ef4444' };
-      case 'meeting': return { bg: 'rgba(59, 130, 246, 0.18)', border: '#3b82f6', color: '#3b82f6' };
-      default: return { bg: 'rgba(245, 158, 11, 0.18)', border: '#f59e0b', color: '#f59e0b' };
+      case 'class event': return { bg: 'rgba(139, 92, 246, 0.18)', border: '#8b5cf6', color: '#8b5cf6' };
+      case 'school event': return { bg: 'rgba(6, 182, 212, 0.18)', border: '#06b6d4', color: '#06b6d4' };
+      case 'for teacher': return { bg: 'rgba(244, 63, 94, 0.18)', border: '#f43f5e', color: '#f43f5e' };
+      default: return { bg: 'rgba(99, 102, 241, 0.18)', border: '#6366f1', color: '#6366f1' };
     }
   };
 
