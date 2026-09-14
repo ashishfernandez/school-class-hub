@@ -347,6 +347,12 @@ body {
   border: none;
 }
 
+.badge-pt-conference {
+  background: #f97316;
+  color: #ffffff;
+  border: none;
+}
+
 .badge-other {
   background: #6366f1;
   color: #ffffff;

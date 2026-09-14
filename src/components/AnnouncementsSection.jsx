@@ -22,6 +22,7 @@ export default function AnnouncementsSection({ announcements, onAddClick }) {
     if (cat === 'class event') return 'badge-class-event';
     if (cat === 'school event') return 'badge-school-event';
     if (cat === 'for teacher') return 'badge-for-teacher';
+    if (cat === 'p/t conference') return 'badge-pt-conference';
     return 'badge-other';
   };
 

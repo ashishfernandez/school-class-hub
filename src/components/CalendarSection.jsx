@@ -64,6 +64,7 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
       case 'class event': return { bg: '#8b5cf6', border: '#8b5cf6', color: '#ffffff' };
       case 'school event': return { bg: '#06b6d4', border: '#06b6d4', color: '#ffffff' };
       case 'for teacher': return { bg: '#f43f5e', border: '#f43f5e', color: '#ffffff' };
+      case 'p/t conference': return { bg: '#f97316', border: '#f97316', color: '#ffffff' };
       default: return { bg: '#6366f1', border: '#6366f1', color: '#ffffff' };
     }
   };
