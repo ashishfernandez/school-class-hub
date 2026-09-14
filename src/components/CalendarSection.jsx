@@ -16,7 +16,6 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(() => new Date(today.getFullYear(), today.getMonth(), 1));
   const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'list'
-  const [categoryFilter, setCategoryFilter] = useState('all');
 
   // When a new event is added, jump the calendar to that event's month so it's visible
   useEffect(() => {
@@ -25,8 +24,6 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
       setCurrentDate(new Date(parsed.getFullYear(), parsed.getMonth(), 1));
     }
   }, [focusDate]);
-
-  const categories = ['all', 'Field Trip', 'Class Event', 'School Event', 'For Teacher', 'Other'];
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -52,11 +49,8 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
     calendarDays.push(d);
   }
 
-  // Filter events
-  const filteredEvents = events.filter(e => {
-    if (categoryFilter === 'all') return true;
-    return e.category.toLowerCase() === categoryFilter.toLowerCase();
-  });
+  // All events are shown (category filtering removed)
+  const filteredEvents = events;
 
   const getEventsForDay = (dayNumber) => {
     if (!dayNumber) return [];
@@ -123,18 +117,6 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
             <button className="btn-secondary" style={{ padding: '0.4rem 0.85rem', fontSize: '0.8rem' }} onClick={handleToday}>
               Today
             </button>
-          </div>
-
-          <div className="filter-tabs">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                className={`tab-btn ${categoryFilter.toLowerCase() === cat.toLowerCase() ? 'active' : ''}`}
-                onClick={() => setCategoryFilter(cat)}
-              >
-                {cat === 'all' ? 'All Events' : cat}
-              </button>
-            ))}
           </div>
         </div>
 
