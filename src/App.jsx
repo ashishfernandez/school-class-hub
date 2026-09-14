@@ -118,8 +118,8 @@ export default function App() {
       <AdminPortalModal
         isOpen={isAdminPortalOpen}
         onClose={() => setIsAdminPortalOpen(false)}
-        onOpenAddAnnouncement={() => setIsAnnouncementModalOpen(true)}
-        onOpenAddEvent={handleOpenCreateEvent}
+        onSaveAnnouncement={handleAddAnnouncement}
+        onSaveEvent={handleAddEvent}
       />
 
       <AnnouncementModal
