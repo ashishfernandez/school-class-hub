@@ -42,10 +42,14 @@ export default function AnnouncementsSection({ announcements, onAddClick }) {
             <span className="badge badge-urgent" style={{ display: 'inline-flex', alignItems: 'center' }} title="Marquee Announcement" aria-label="Marquee Announcement">
               <Pin size={12} />
             </span>
-            <span><strong>{item.title}:</strong> {item.content}</span>
+            <span>
+              <strong>{item.title}</strong>
+              <span style={{ marginLeft: '0.5rem', fontWeight: 600, fontSize: '0.85rem', opacity: 0.75 }}>{formatTileDate(item.date)}</span>
+              <strong>:</strong> {item.content}
+            </span>
           </div>
           <div style={{ fontSize: '0.8rem', opacity: 0.8, whiteSpace: 'nowrap' }}>
-            By {item.author} • {item.date}
+            By {item.author}
           </div>
         </div>
       ))}
@@ -103,13 +107,15 @@ export default function AnnouncementsSection({ announcements, onAddClick }) {
                   )}
                 </div>
 
-                <h3 className="card-title">{item.title}</h3>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                  <h3 className="card-title" style={{ marginBottom: 0 }}>{item.title}</h3>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', whiteSpace: 'nowrap', flexShrink: 0 }}>{formatTileDate(item.date)}</span>
+                </div>
                 <p className="card-body">{item.content}</p>
               </div>
 
               <div className="card-footer">
                 <span>By <strong>{item.author}</strong></span>
-                <span>{formatTileDate(item.date)}</span>
               </div>
             </div>
           ))
