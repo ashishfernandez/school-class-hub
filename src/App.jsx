@@ -7,15 +7,15 @@ import EventModal from './components/EventModal';
 import AdminPortalModal from './components/AdminPortalModal';
 import AnnouncementDetailsModal from './components/AnnouncementDetailsModal';
 
+import { getStoredSettings, saveStoredSettings } from './utils/storage';
 import {
-  getStoredAnnouncements, saveStoredAnnouncements,
-  getStoredEvents, saveStoredEvents,
-  getStoredSettings, saveStoredSettings
-} from './utils/storage';
+  fetchAnnouncements, persistAnnouncements, removeAnnouncement,
+  fetchEvents, addEvent, removeEvent
+} from './utils/db';
 
 export default function App() {
-  const [announcements, setAnnouncements] = useState(() => getStoredAnnouncements());
-  const [events, setEvents] = useState(() => getStoredEvents());
+  const [announcements, setAnnouncements] = useState([]);
+  const [events, setEvents] = useState([]);
   const [settings, setSettings] = useState(() => getStoredSettings());
 
   // Modal controls
@@ -35,17 +35,34 @@ export default function App() {
     document.documentElement.setAttribute('data-theme', settings.themeMode || 'dark');
   }, [settings.themeMode]);
 
+  // Load shared data (Supabase or localStorage) on mount
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const [a, e] = await Promise.all([fetchAnnouncements(), fetchEvents()]);
+        if (!cancelled) {
+          setAnnouncements(a);
+          setEvents(e);
+        }
+      } catch (err) {
+        console.error('Failed to load data:', err);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
   // Handlers for Announcements
-  const handleAddAnnouncement = (newNotice) => {
+  const handleAddAnnouncement = async (newNotice) => {
     const updated = [newNotice, ...announcements];
     setAnnouncements(updated);
-    saveStoredAnnouncements(updated);
+    try { await persistAnnouncements(updated); } catch (err) { console.error(err); }
   };
 
-  const handleDeleteAnnouncement = (id) => {
+  const handleDeleteAnnouncement = async (id) => {
     const updated = announcements.filter(a => a.id !== id);
     setAnnouncements(updated);
-    saveStoredAnnouncements(updated);
+    try { await removeAnnouncement(id, updated); } catch (err) { console.error(err); }
   };
 
   const handleSelectAnnouncement = (announcement) => {
@@ -54,7 +71,7 @@ export default function App() {
   };
 
   // Reorder an announcement up/down; this order is reflected on the main page
-  const handleReorderAnnouncement = (id, direction) => {
+  const handleReorderAnnouncement = async (id, direction) => {
     const index = announcements.findIndex(a => a.id === id);
     if (index === -1) return;
     const newIndex = direction === 'up' ? index - 1 : index + 1;
@@ -63,41 +80,41 @@ export default function App() {
     const [moved] = updated.splice(index, 1);
     updated.splice(newIndex, 0, moved);
     setAnnouncements(updated);
-    saveStoredAnnouncements(updated);
+    try { await persistAnnouncements(updated); } catch (err) { console.error(err); }
   };
 
   // Toggle the (cosmetic) pinned badge shown on the main page tile
-  const handleTogglePinAnnouncement = (id) => {
+  const handleTogglePinAnnouncement = async (id) => {
     const updated = announcements.map(a =>
       a.id === id ? { ...a, pinned: !a.pinned } : a
     );
     setAnnouncements(updated);
-    saveStoredAnnouncements(updated);
+    try { await persistAnnouncements(updated); } catch (err) { console.error(err); }
   };
 
   // Add/remove an announcement from the top marquee alert banner
-  const handleToggleMarqueeAnnouncement = (id) => {
+  const handleToggleMarqueeAnnouncement = async (id) => {
     const updated = announcements.map(a =>
       a.id === id ? { ...a, marquee: !a.marquee } : a
     );
     setAnnouncements(updated);
-    saveStoredAnnouncements(updated);
+    try { await persistAnnouncements(updated); } catch (err) { console.error(err); }
   };
 
   // Handlers for Events
-  const handleAddEvent = (newEvent) => {
+  const handleAddEvent = async (newEvent) => {
     const updated = [...events, newEvent];
     setEvents(updated);
-    saveStoredEvents(updated);
     // Ensure the calendar navigates to the month of the newly added event.
     // Use a unique value each time so repeated adds to the same month still trigger navigation.
     setCalendarFocusDate(`${newEvent.date}#${Date.now()}`);
+    try { await addEvent(newEvent, updated); } catch (err) { console.error(err); }
   };
 
-  const handleDeleteEvent = (id) => {
+  const handleDeleteEvent = async (id) => {
     const updated = events.filter(e => e.id !== id);
     setEvents(updated);
-    saveStoredEvents(updated);
+    try { await removeEvent(id, updated); } catch (err) { console.error(err); }
   };
 
   const handleSelectEvent = (event) => {
