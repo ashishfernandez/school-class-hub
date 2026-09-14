@@ -9,9 +9,9 @@ export default function AnnouncementsSection({ announcements, onAddClick }) {
            item.content.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
-  // Ticker shows the top announcement by the admin-controlled order (pinning is
-  // cosmetic only and does not move an announcement to the front).
-  const featuredAnnouncement = announcements[0];
+  // The top marquee banner shows only announcements explicitly added to the
+  // marquee (via the Admin Portal). If none are flagged, no banner is shown.
+  const marqueeAnnouncements = announcements.filter(a => a.marquee);
 
   const getBadgeClass = (category, priority) => {
     const cat = (category || '').toLowerCase();
@@ -25,20 +25,20 @@ export default function AnnouncementsSection({ announcements, onAddClick }) {
 
   return (
     <section className="announcements-container" style={{ marginBottom: '3rem' }}>
-      {/* Top Banner Alert Ticker */}
-      {featuredAnnouncement && (
-        <div className="announcement-ticker">
+      {/* Top Banner Alert Ticker(s) */}
+      {marqueeAnnouncements.map((item) => (
+        <div className="announcement-ticker" key={item.id}>
           <div className="ticker-content">
-            <span className="badge badge-urgent" style={{ display: 'inline-flex', alignItems: 'center' }} title="Featured Announcement" aria-label="Featured Announcement">
+            <span className="badge badge-urgent" style={{ display: 'inline-flex', alignItems: 'center' }} title="Marquee Announcement" aria-label="Marquee Announcement">
               <Pin size={12} />
             </span>
-            <span><strong>{featuredAnnouncement.title}:</strong> {featuredAnnouncement.content}</span>
+            <span><strong>{item.title}:</strong> {item.content}</span>
           </div>
           <div style={{ fontSize: '0.8rem', opacity: 0.8, whiteSpace: 'nowrap' }}>
-            By {featuredAnnouncement.author} • {featuredAnnouncement.date}
+            By {item.author} • {item.date}
           </div>
         </div>
-      )}
+      ))}
 
       {/* Section Header */}
       <div className="section-header">

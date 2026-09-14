@@ -7,7 +7,8 @@ export const INITIAL_ANNOUNCEMENTS = [
     content: 'Please submit signed permission slips and $15 lunch fee by Friday for our upcoming trip to the Metro Zoo on October 18th.',
     author: 'Mrs. Davis',
     date: '2026-09-12',
-    pinned: true
+    pinned: true,
+    marquee: true
   },
   {
     id: 'anc-2',

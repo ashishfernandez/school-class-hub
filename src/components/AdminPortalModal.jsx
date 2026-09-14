@@ -3,7 +3,7 @@ import { X, Megaphone, Calendar as CalendarIcon, ShieldCheck, Lock, Unlock, KeyR
 import { calculateReminderDate, formatDateString } from '../utils/whatsappHelper';
 import confetti from 'canvas-confetti';
 
-export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, onSaveEvent, announcements = [], onDeleteAnnouncement, onReorderAnnouncement, onTogglePinAnnouncement, events = [], onDeleteEvent }) {
+export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, onSaveEvent, announcements = [], onDeleteAnnouncement, onReorderAnnouncement, onTogglePinAnnouncement, onToggleMarqueeAnnouncement, events = [], onDeleteEvent }) {
   const [password, setPassword] = useState('');
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -17,7 +17,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
   const [time, setTime] = useState('09:00 AM - 02:00 PM');
   const [location, setLocation] = useState('');
   const [content, setContent] = useState('');
-  const [pinned, setPinned] = useState(false);
+  const [marquee, setMarquee] = useState(false);
 
   if (!isOpen) return null;
 
@@ -60,7 +60,8 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
         content,
         author,
         date: postDate,
-        pinned
+        marquee,
+        pinned: false
       };
       onSaveAnnouncement(newNotice);
     }
@@ -87,6 +88,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
     setContent('');
     setDate('');
     setLocation('');
+    setMarquee(false);
     handleClose();
   };
 
@@ -317,13 +319,13 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
               <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <input
                   type="checkbox"
-                  id="pinnedPost"
-                  checked={pinned}
-                  onChange={(e) => setPinned(e.target.checked)}
+                  id="marqueePost"
+                  checked={marquee}
+                  onChange={(e) => setMarquee(e.target.checked)}
                   style={{ width: '18px', height: '18px', cursor: 'pointer' }}
                 />
-                <label htmlFor="pinnedPost" style={{ fontSize: '0.85rem', cursor: 'pointer', fontWeight: 600 }}>
-                  Pin to top marquee alert banner
+                <label htmlFor="marqueePost" style={{ fontSize: '0.85rem', cursor: 'pointer', fontWeight: 600 }}>
+                  Show in top marquee alert banner
                 </label>
               </div>
             )}
@@ -354,7 +356,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
               <span className="badge badge-general" style={{ fontSize: '0.7rem' }}>{announcements.length}</span>
             </div>
             <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
-              Use the arrows to set the order shown on the main page. The pin is a cosmetic badge only and does not change the order.
+              Arrows set the order shown on the main page. The megaphone adds/removes the item from the top marquee banner. The pin is a cosmetic tile badge only.
             </p>
 
             {announcements.length === 0 ? (
@@ -369,6 +371,11 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                     <div style={{ minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem', flexWrap: 'wrap' }}>
                         <span className="badge badge-general" style={{ fontSize: '0.65rem' }}>{item.category}</span>
+                        {item.marquee && (
+                          <span style={{ color: 'var(--primary)', display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '0.7rem', fontWeight: 700 }}>
+                            <Megaphone size={11} /> In Marquee
+                          </span>
+                        )}
                         {item.pinned && (
                           <span style={{ color: 'var(--primary)', display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '0.7rem', fontWeight: 700 }}>
                             <Pin size={11} /> Pinned
@@ -403,6 +410,17 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                           <ArrowDown size={13} />
                         </button>
                       </div>
+
+                      {/* Marquee toggle (add/remove from top banner) */}
+                      <button
+                        type="button"
+                        onClick={() => onToggleMarqueeAnnouncement && onToggleMarqueeAnnouncement(item.id)}
+                        className="btn-icon"
+                        style={{ width: '34px', height: '34px', color: item.marquee ? 'var(--primary)' : 'var(--text-muted)', borderColor: item.marquee ? 'var(--primary)' : 'var(--border-color)' }}
+                        title={item.marquee ? 'Remove from top marquee banner' : 'Add to top marquee banner'}
+                      >
+                        <Megaphone size={15} />
+                      </button>
 
                       {/* Cosmetic pin toggle */}
                       <button

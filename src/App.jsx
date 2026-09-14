@@ -67,6 +67,15 @@ export default function App() {
     saveStoredAnnouncements(updated);
   };
 
+  // Add/remove an announcement from the top marquee alert banner
+  const handleToggleMarqueeAnnouncement = (id) => {
+    const updated = announcements.map(a =>
+      a.id === id ? { ...a, marquee: !a.marquee } : a
+    );
+    setAnnouncements(updated);
+    saveStoredAnnouncements(updated);
+  };
+
   // Handlers for Events
   const handleAddEvent = (newEvent) => {
     const updated = [...events, newEvent];
@@ -150,6 +159,7 @@ export default function App() {
         onDeleteAnnouncement={handleDeleteAnnouncement}
         onReorderAnnouncement={handleReorderAnnouncement}
         onTogglePinAnnouncement={handleTogglePinAnnouncement}
+        onToggleMarqueeAnnouncement={handleToggleMarqueeAnnouncement}
         events={events}
         onDeleteEvent={handleDeleteEvent}
       />
