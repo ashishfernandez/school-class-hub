@@ -31,8 +31,8 @@ export default function AnnouncementsSection({ announcements, onAddClick, onDele
       {pinnedAnnouncement && (
         <div className="announcement-ticker">
           <div className="ticker-content">
-            <span className="badge badge-urgent" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-              <Pin size={12} /> PINNED ANNOUNCEMENT
+            <span className="badge badge-urgent" style={{ display: 'inline-flex', alignItems: 'center' }} title="Pinned Announcement" aria-label="Pinned Announcement">
+              <Pin size={12} />
             </span>
             <span><strong>{pinnedAnnouncement.title}:</strong> {pinnedAnnouncement.content}</span>
           </div>
