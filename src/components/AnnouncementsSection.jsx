@@ -76,8 +76,7 @@ export default function AnnouncementsSection({ announcements, onAddClick }) {
         {filteredAnnouncements.length === 0 ? (
           <div className="glass-card" style={{ gridColumn: '1 / -1', padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
             <Megaphone size={40} style={{ opacity: 0.3, marginBottom: '1rem' }} />
-            <h3>No Announcements Found</h3>
-            <p style={{ fontSize: '0.9rem' }}>Try adjusting your search query or filter category.</p>
+            <h3>No Announcements Yet</h3>
           </div>
         ) : (
           filteredAnnouncements.map((item) => (
