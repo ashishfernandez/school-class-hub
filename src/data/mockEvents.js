@@ -15,7 +15,7 @@ export const INITIAL_EVENTS = [
     category: 'Party',
     date: '2026-10-24',
     time: '01:00 PM - 03:00 PM',
-    location: 'Class 3B Classroom',
+    location: 'Room 3B Classroom',
     description: 'Celebrating autumn with pumpkin decorating, treats, and pizza! Parent volunteers welcome.',
     organizer: 'Room Parents'
   },
@@ -25,7 +25,7 @@ export const INITIAL_EVENTS = [
     category: 'Exam',
     date: '2026-09-24',
     time: '09:00 AM - 10:30 AM',
-    location: 'Class 3B',
+    location: 'Room 3B',
     description: 'Multiplication & Division mastery quiz. Please make sure pencils are sharpened!',
     organizer: 'Mrs. Davis'
   },

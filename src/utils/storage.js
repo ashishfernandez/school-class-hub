@@ -12,7 +12,7 @@ export const DEFAULT_SETTINGS = {
   whatsappAutoSend: true,
   themeMode: 'dark',
   accentColor: 'sunburst',
-  className: 'Class 3B'
+  className: 'Room 3B'
 };
 
 export function getStoredAnnouncements() {

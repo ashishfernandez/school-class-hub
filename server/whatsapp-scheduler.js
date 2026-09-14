@@ -25,7 +25,7 @@ async function fetchUpcomingEvents() {
   // In production, fetch from your deployed ClassConnect database or API
   return [
     { title: '🚌 Metro Zoo Science Field Trip', date: '2026-10-18', time: '08:30 AM', location: 'City Zoo' },
-    { title: '🍕 Class Autumn Pizza & Pumpkin Party', date: '2026-10-24', time: '01:00 PM', location: 'Class 3B' }
+    { title: '🍕 Class Autumn Pizza & Pumpkin Party', date: '2026-10-24', time: '01:00 PM', location: 'Room 3B' }
   ];
 }
 

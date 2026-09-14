@@ -139,7 +139,7 @@ export default function App() {
 
       {/* Footer */}
       <footer className="app-footer">
-        <p>✨ <strong>GISSVROOS School Hub</strong> • Built for Class 3B Families</p>
+        <p>✨ <strong>GISSVROOS School Hub</strong> • Built for Room 3B Families</p>
         <p style={{ marginTop: '0.25rem', opacity: 0.7 }}>
           Automated WhatsApp 4-day reminder system active • Connected to custom GoDaddy domain wizard
         </p>
