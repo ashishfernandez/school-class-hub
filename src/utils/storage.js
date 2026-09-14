@@ -2,9 +2,9 @@ import { INITIAL_ANNOUNCEMENTS } from '../data/mockAnnouncements';
 import { INITIAL_EVENTS } from '../data/mockEvents';
 
 const KEYS = {
-  ANNOUNCEMENTS: 'classconnect_announcements',
-  EVENTS: 'classconnect_events',
-  SETTINGS: 'classconnect_settings'
+  ANNOUNCEMENTS: 'gissvroos_announcements',
+  EVENTS: 'gissvroos_events',
+  SETTINGS: 'gissvroos_settings'
 };
 
 export const DEFAULT_SETTINGS = {
@@ -56,7 +56,14 @@ export function getStoredSettings() {
     return DEFAULT_SETTINGS;
   }
   try {
-    return { ...DEFAULT_SETTINGS, ...JSON.parse(data) };
+    const parsed = JSON.parse(data);
+    let settings = { ...DEFAULT_SETTINGS, ...parsed };
+    // Force sanitize legacy "Room 4B" values from older browser storage sessions
+    if (!settings.className || settings.className.includes('4B') || settings.className.includes('Grade 4')) {
+      settings.className = 'Room 3B';
+      localStorage.setItem(KEYS.SETTINGS, JSON.stringify(settings));
+    }
+    return settings;
   } catch (e) {
     return DEFAULT_SETTINGS;
   }
