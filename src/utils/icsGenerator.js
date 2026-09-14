@@ -13,7 +13,7 @@ export function downloadIcsFile(event) {
   const icsContent = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//ClassConnect School Hub//EN',
+    'PRODID:-//GISSVROOS School Hub//EN',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',

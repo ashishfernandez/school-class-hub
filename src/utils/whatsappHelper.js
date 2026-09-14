@@ -54,7 +54,7 @@ export function formatWhatsAppMessage(event, recipientName = 'Class Family') {
     `📍 *Location:* ${event.location || 'School'}\n` +
     `📝 *Details:* ${event.description || 'No additional details.'}\n\n` +
     `🔔 *Reminder Triggered On:* ${reminderDateStr} (4 days before event)\n\n` +
-    `Please check the ClassConnect Portal for updates!`;
+    `Please check the GISSVROOS Portal for updates!`;
 }
 
 export function generateWhatsAppLink(phoneNumber, event) {

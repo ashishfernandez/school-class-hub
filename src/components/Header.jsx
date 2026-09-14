@@ -10,7 +10,7 @@ export default function Header({ classNameTitle, onOpenDomainGuide, themeMode, o
           <School size={24} />
         </div>
         <div>
-          <h1 className="brand-title">ClassConnect</h1>
+          <h1 className="brand-title">GISSVROOS</h1>
           <div className="brand-subtitle">{classNameTitle}</div>
         </div>
       </div>
