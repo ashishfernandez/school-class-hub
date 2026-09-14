@@ -2,16 +2,11 @@ import React, { useState } from 'react';
 import { Megaphone, Pin, Search, Plus, Bell, Calendar, Sparkles, Filter } from 'lucide-react';
 
 export default function AnnouncementsSection({ announcements, onAddClick }) {
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const categories = ['all', 'Urgent', 'Homework', 'Field Trip', 'General'];
-
   const filteredAnnouncements = announcements.filter(item => {
-    const matchesCategory = selectedCategory === 'all' || item.category.toLowerCase() === selectedCategory.toLowerCase();
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          item.content.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    return item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+           item.content.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
   const pinnedAnnouncement = announcements.find(a => a.pinned) || announcements[0];
@@ -59,20 +54,8 @@ export default function AnnouncementsSection({ announcements, onAddClick }) {
 
       </div>
 
-      {/* Controls & Filter Bar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-        <div className="filter-tabs">
-          {categories.map(cat => (
-            <button
-              key={cat}
-              className={`tab-btn ${selectedCategory.toLowerCase() === cat.toLowerCase() ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(cat)}
-            >
-              {cat === 'all' ? '✨ All Notices' : cat}
-            </button>
-          ))}
-        </div>
-
+      {/* Controls & Search Bar */}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
         <div style={{ position: 'relative', width: '260px' }}>
           <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input
