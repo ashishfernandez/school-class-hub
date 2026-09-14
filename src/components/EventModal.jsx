@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { X, Calendar as CalendarIcon, MapPin, Clock, Download, Plus, Bell } from 'lucide-react';
+import { X, Calendar as CalendarIcon, MapPin, Clock, Plus, Bell } from 'lucide-react';
 import { calculateReminderDate, formatDateString } from '../utils/whatsappHelper';
-import { downloadIcsFile } from '../utils/icsGenerator';
 
 export default function EventModal({ isOpen, onClose, selectedEvent, isCreateMode, onSaveEvent, userPhone }) {
   const [title, setTitle] = useState('');
@@ -187,9 +186,7 @@ export default function EventModal({ isOpen, onClose, selectedEvent, isCreateMod
         </div>
 
         <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end', marginTop: '1.5rem', flexWrap: 'wrap' }}>
-          <button className="btn-secondary" onClick={() => downloadIcsFile(selectedEvent)}>
-            <Download size={16} /> Export to iCal / Outlook
-          </button>
+          <button className="btn-secondary" onClick={onClose}>Close</button>
         </div>
       </div>
     </div>
