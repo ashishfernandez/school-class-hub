@@ -1,8 +1,8 @@
 import React from 'react';
-import { Sparkles, Globe, School, Bell } from 'lucide-react';
+import { Globe, School } from 'lucide-react';
 import ThemeSelector from './ThemeSelector';
 
-export default function Header({ classNameTitle, onOpenDomainGuide, themeMode, onToggleThemeMode, accentColor, onChangeAccent }) {
+export default function Header({ classNameTitle, onOpenDomainGuide, themeMode, onToggleThemeMode }) {
   return (
     <header className="sticky-header">
       <div className="brand-badge">
@@ -19,8 +19,6 @@ export default function Header({ classNameTitle, onOpenDomainGuide, themeMode, o
         <ThemeSelector
           themeMode={themeMode}
           onToggleThemeMode={onToggleThemeMode}
-          accentColor={accentColor}
-          onChangeAccent={onChangeAccent}
         />
 
         <button className="btn-secondary" onClick={onOpenDomainGuide} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

@@ -25,11 +25,10 @@ export default function App() {
   const [isCreateEventMode, setIsCreateEventMode] = useState(false);
   const [isDomainGuideOpen, setIsDomainGuideOpen] = useState(false);
 
-  // Sync settings with DOM attributes for themes
+  // Sync settings with DOM attributes for light/dark theme
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', settings.themeMode || 'dark');
-    document.documentElement.setAttribute('data-accent', settings.accentColor || 'sunburst');
-  }, [settings.themeMode, settings.accentColor]);
+  }, [settings.themeMode]);
 
   // Handlers for Announcements
   const handleAddAnnouncement = (newNotice) => {
@@ -71,12 +70,6 @@ export default function App() {
     saveStoredSettings(nextSettings);
   };
 
-  const handleChangeAccent = (colorId) => {
-    const nextSettings = { ...settings, accentColor: colorId };
-    setSettings(nextSettings);
-    saveStoredSettings(nextSettings);
-  };
-
   const handleUpdateSettings = (newSettings) => {
     setSettings(newSettings);
     saveStoredSettings(newSettings);
@@ -96,8 +89,6 @@ export default function App() {
         onOpenDomainGuide={() => setIsDomainGuideOpen(true)}
         themeMode={settings.themeMode}
         onToggleThemeMode={handleToggleThemeMode}
-        accentColor={settings.accentColor}
-        onChangeAccent={handleChangeAccent}
       />
 
       {/* Main Content Sections */}
