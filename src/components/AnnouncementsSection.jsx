@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Megaphone, Pin, Search, Plus, Bell, Calendar, Sparkles, Filter } from 'lucide-react';
 
-export default function AnnouncementsSection({ announcements, onAddClick, onDeleteAnnouncement }) {
+export default function AnnouncementsSection({ announcements, onAddClick }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -114,16 +114,7 @@ export default function AnnouncementsSection({ announcements, onAddClick, onDele
 
               <div className="card-footer">
                 <span>By <strong>{item.author}</strong></span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span>{item.date}</span>
-                  <button 
-                    onClick={() => onDeleteAnnouncement(item.id)}
-                    style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', opacity: 0.6, fontSize: '0.75rem' }}
-                    title="Delete notice"
-                  >
-                    ✕
-                  </button>
-                </div>
+                <span>{item.date}</span>
               </div>
             </div>
           ))

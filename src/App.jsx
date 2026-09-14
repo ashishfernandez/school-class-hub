@@ -102,7 +102,6 @@ export default function App() {
         {/* TOP SECTION: General Announcements */}
         <AnnouncementsSection
           announcements={announcements}
-          onDeleteAnnouncement={handleDeleteAnnouncement}
         />
 
         {/* BOTTOM SECTION: Live Calendar of Events */}
@@ -119,6 +118,8 @@ export default function App() {
         onClose={() => setIsAdminPortalOpen(false)}
         onSaveAnnouncement={handleAddAnnouncement}
         onSaveEvent={handleAddEvent}
+        announcements={announcements}
+        onDeleteAnnouncement={handleDeleteAnnouncement}
       />
 
       <AnnouncementModal
