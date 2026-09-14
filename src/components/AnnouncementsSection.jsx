@@ -51,7 +51,7 @@ export default function AnnouncementsSection({ announcements, onAddClick, onDele
           <div>
             <h2>General Announcements</h2>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-              Latest updates, homework notices, and class news
+              Top most things to know right now
             </p>
           </div>
         </div>

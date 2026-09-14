@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Plus, MapPin, Clock, Download, Bell, Filter, List, Grid } from 'lucide-react';
 import { calculateReminderDate, getReminderStatus } from '../utils/whatsappHelper';
 import { downloadIcsFile } from '../utils/icsGenerator';
 
-export default function CalendarSection({ events, onAddEventClick, onSelectEvent }) {
-  const [currentDate, setCurrentDate] = useState(new Date(2026, 9, 1)); // Default Oct 2026 for demo events
+// Parse a 'YYYY-MM-DD' string into a local Date (avoids UTC timezone shifting the day)
+const parseLocalDate = (dateStr) => {
+  if (!dateStr) return null;
+  // Strip any trailing uniqueness token (e.g. "2026-09-20#1699999999") used to force re-focus
+  const [y, m, d] = dateStr.split('#')[0].split('-').map(Number);
+  if (!y || !m || !d) return null;
+  return new Date(y, m - 1, d);
+};
+
+export default function CalendarSection({ events, onAddEventClick, onSelectEvent, focusDate }) {
+  const today = new Date();
+  const [currentDate, setCurrentDate] = useState(() => new Date(today.getFullYear(), today.getMonth(), 1));
   const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'list'
   const [categoryFilter, setCategoryFilter] = useState('all');
+
+  // When a new event is added, jump the calendar to that event's month so it's visible
+  useEffect(() => {
+    const parsed = parseLocalDate(focusDate);
+    if (parsed) {
+      setCurrentDate(new Date(parsed.getFullYear(), parsed.getMonth(), 1));
+    }
+  }, [focusDate]);
 
   const categories = ['all', 'Field Trip', 'Class Event', 'School Event', 'For Teacher', 'Other'];
 
@@ -20,7 +38,7 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
 
   const handlePrevMonth = () => setCurrentDate(new Date(year, month - 1, 1));
   const handleNextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
-  const handleToday = () => setCurrentDate(new Date(2026, 9, 1));
+  const handleToday = () => setCurrentDate(new Date(today.getFullYear(), today.getMonth(), 1));
 
   // Calendar calculations
   const firstDayOfMonth = new Date(year, month, 1).getDay();
@@ -67,7 +85,7 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
           <div>
             <h2>Live Class Calendar</h2>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-              Interactive schedule of field trips, exams, parties & parent meetings
+              Interactive schedule of upcoming Class 3B events
             </p>
           </div>
         </div>
@@ -134,7 +152,7 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
                 }
 
                 const dayEvents = getEventsForDay(dayNum);
-                const isToday = dayNum === 14 && month === 9 && year === 2026; // Highlight demo today date
+                const isToday = dayNum === today.getDate() && month === today.getMonth() && year === today.getFullYear();
 
                 return (
                   <div key={`day-${dayNum}`} className={`calendar-day ${isToday ? 'today' : ''}`}>

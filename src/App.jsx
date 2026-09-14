@@ -24,6 +24,9 @@ export default function App() {
   const [isCreateEventMode, setIsCreateEventMode] = useState(false);
   const [isAdminPortalOpen, setIsAdminPortalOpen] = useState(false);
 
+  // Date the calendar should jump to when a new event is added (so it's visible)
+  const [calendarFocusDate, setCalendarFocusDate] = useState(null);
+
   // Sync settings with DOM attributes for light/dark theme
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', settings.themeMode || 'dark');
@@ -47,6 +50,9 @@ export default function App() {
     const updated = [...events, newEvent];
     setEvents(updated);
     saveStoredEvents(updated);
+    // Ensure the calendar navigates to the month of the newly added event.
+    // Use a unique value each time so repeated adds to the same month still trigger navigation.
+    setCalendarFocusDate(`${newEvent.date}#${Date.now()}`);
   };
 
   const handleSelectEvent = (event) => {
@@ -103,6 +109,7 @@ export default function App() {
         <CalendarSection
           events={events}
           onSelectEvent={handleSelectEvent}
+          focusDate={calendarFocusDate}
         />
       </main>
 
@@ -131,10 +138,7 @@ export default function App() {
 
       {/* Footer */}
       <footer className="app-footer">
-        <p>✨ <strong>GISSVROOS School Hub</strong> • Built for Room 3B Families</p>
-        <p style={{ marginTop: '0.25rem', opacity: 0.7 }}>
-          Automated WhatsApp 4-day reminder system active
-        </p>
+        <p>✨ <strong>GISSVROOS Class Events</strong> • Built for Room 3B Families</p>
       </footer>
     </div>
   );
