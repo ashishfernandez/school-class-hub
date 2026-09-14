@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, Calendar as CalendarIcon, MapPin, Clock, Download, MessageSquare, Plus, Bell } from 'lucide-react';
-import { generateWhatsAppLink, calculateReminderDate, formatDateString } from '../utils/whatsappHelper';
+import { X, Calendar as CalendarIcon, MapPin, Clock, Download, Plus, Bell } from 'lucide-react';
+import { calculateReminderDate, formatDateString } from '../utils/whatsappHelper';
 import { downloadIcsFile } from '../utils/icsGenerator';
 
 export default function EventModal({ isOpen, onClose, selectedEvent, isCreateMode, onSaveEvent, userPhone }) {
@@ -153,8 +153,6 @@ export default function EventModal({ isOpen, onClose, selectedEvent, isCreateMod
 
   // View Details Mode
   if (!selectedEvent) return null;
-  const whatsappUrl = generateWhatsAppLink(userPhone, selectedEvent);
-  const reminderDateStr = formatDateString(calculateReminderDate(selectedEvent.date));
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -188,28 +186,10 @@ export default function EventModal({ isOpen, onClose, selectedEvent, isCreateMod
           </p>
         </div>
 
-        <div style={{ background: 'rgba(37, 211, 102, 0.12)', border: '1px solid rgba(37, 211, 102, 0.3)', padding: '1rem', borderRadius: '0.85rem', margin: '1.25rem 0' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, fontSize: '0.9rem', marginBottom: '0.35rem', color: '#25D366' }}>
-            <Bell size={16} /> 4-Day WhatsApp Automated Reminder
-          </div>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-            WhatsApp notification trigger date: <strong>{reminderDateStr}</strong> (4 days prior to event).
-          </p>
-        </div>
-
         <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end', marginTop: '1.5rem', flexWrap: 'wrap' }}>
           <button className="btn-secondary" onClick={() => downloadIcsFile(selectedEvent)}>
             <Download size={16} /> Export to iCal / Outlook
           </button>
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary"
-            style={{ background: '#25D366', color: 'white', textDecoration: 'none' }}
-          >
-            <MessageSquare size={16} /> Send WhatsApp Reminder Now
-          </a>
         </div>
       </div>
     </div>

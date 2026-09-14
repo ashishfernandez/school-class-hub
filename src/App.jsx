@@ -5,6 +5,7 @@ import AnnouncementModal from './components/AnnouncementModal';
 import CalendarSection from './components/CalendarSection';
 import EventModal from './components/EventModal';
 import AdminPortalModal from './components/AdminPortalModal';
+import AnnouncementDetailsModal from './components/AnnouncementDetailsModal';
 
 import {
   getStoredAnnouncements, saveStoredAnnouncements,
@@ -19,6 +20,8 @@ export default function App() {
 
   // Modal controls
   const [isAnnouncementModalOpen, setIsAnnouncementModalOpen] = useState(false);
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
+  const [isAnnouncementDetailsOpen, setIsAnnouncementDetailsOpen] = useState(false);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isCreateEventMode, setIsCreateEventMode] = useState(false);
@@ -43,6 +46,11 @@ export default function App() {
     const updated = announcements.filter(a => a.id !== id);
     setAnnouncements(updated);
     saveStoredAnnouncements(updated);
+  };
+
+  const handleSelectAnnouncement = (announcement) => {
+    setSelectedAnnouncement(announcement);
+    setIsAnnouncementDetailsOpen(true);
   };
 
   // Reorder an announcement up/down; this order is reflected on the main page
@@ -139,6 +147,7 @@ export default function App() {
         {/* TOP SECTION: General Announcements */}
         <AnnouncementsSection
           announcements={announcements}
+          onSelectAnnouncement={handleSelectAnnouncement}
         />
 
         {/* BOTTOM SECTION: Live Calendar of Events */}
@@ -168,6 +177,12 @@ export default function App() {
         isOpen={isAnnouncementModalOpen}
         onClose={() => setIsAnnouncementModalOpen(false)}
         onSave={handleAddAnnouncement}
+      />
+
+      <AnnouncementDetailsModal
+        isOpen={isAnnouncementDetailsOpen}
+        onClose={() => setIsAnnouncementDetailsOpen(false)}
+        announcement={selectedAnnouncement}
       />
 
       <EventModal

@@ -11,7 +11,7 @@ const formatTileDate = (dateStr) => {
   return `${MONTHS_ABBR[m - 1]} ${String(d).padStart(2, '0')}, ${y}`;
 };
 
-export default function AnnouncementsSection({ announcements, onAddClick }) {
+export default function AnnouncementsSection({ announcements, onAddClick, onSelectAnnouncement }) {
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredAnnouncements = announcements.filter(item => {
@@ -94,7 +94,13 @@ export default function AnnouncementsSection({ announcements, onAddClick }) {
           </div>
         ) : (
           filteredAnnouncements.map((item) => (
-            <div key={item.id} className="glass-card announcement-card">
+            <div
+              key={item.id}
+              className="glass-card announcement-card"
+              style={{ cursor: 'pointer' }}
+              onClick={() => onSelectAnnouncement && onSelectAnnouncement(item)}
+              title="View announcement details"
+            >
               <div>
                 <div className="card-top">
                   <span className={`badge ${getBadgeClass(item.category, item.priority)}`}>
