@@ -5,7 +5,7 @@ import AnnouncementModal from './components/AnnouncementModal';
 import CalendarSection from './components/CalendarSection';
 import EventModal from './components/EventModal';
 import WhatsAppCenter from './components/WhatsAppCenter';
-import DomainGuideModal from './components/DomainGuideModal';
+import AdminPortalModal from './components/AdminPortalModal';
 
 import {
   getStoredAnnouncements, saveStoredAnnouncements,
@@ -23,7 +23,7 @@ export default function App() {
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isCreateEventMode, setIsCreateEventMode] = useState(false);
-  const [isDomainGuideOpen, setIsDomainGuideOpen] = useState(false);
+  const [isAdminPortalOpen, setIsAdminPortalOpen] = useState(false);
 
   // Sync settings with DOM attributes for light/dark theme
   useEffect(() => {
@@ -87,7 +87,7 @@ export default function App() {
       {/* Header Bar */}
       <Header
         classNameTitle={settings.className}
-        onOpenDomainGuide={() => setIsDomainGuideOpen(true)}
+        onOpenAdminPortal={() => setIsAdminPortalOpen(true)}
         themeMode={settings.themeMode}
         onToggleThemeMode={handleToggleThemeMode}
       />
@@ -97,14 +97,12 @@ export default function App() {
         {/* TOP SECTION: General Announcements */}
         <AnnouncementsSection
           announcements={announcements}
-          onAddClick={() => setIsAnnouncementModalOpen(true)}
           onDeleteAnnouncement={handleDeleteAnnouncement}
         />
 
         {/* BOTTOM SECTION: Live Calendar of Events */}
         <CalendarSection
           events={events}
-          onAddEventClick={handleOpenCreateEvent}
           onSelectEvent={handleSelectEvent}
         />
 
@@ -117,6 +115,13 @@ export default function App() {
       </main>
 
       {/* Modals */}
+      <AdminPortalModal
+        isOpen={isAdminPortalOpen}
+        onClose={() => setIsAdminPortalOpen(false)}
+        onOpenAddAnnouncement={() => setIsAnnouncementModalOpen(true)}
+        onOpenAddEvent={handleOpenCreateEvent}
+      />
+
       <AnnouncementModal
         isOpen={isAnnouncementModalOpen}
         onClose={() => setIsAnnouncementModalOpen(false)}
@@ -132,16 +137,11 @@ export default function App() {
         userPhone={settings.whatsappPhone}
       />
 
-      <DomainGuideModal
-        isOpen={isDomainGuideOpen}
-        onClose={() => setIsDomainGuideOpen(false)}
-      />
-
       {/* Footer */}
       <footer className="app-footer">
         <p>✨ <strong>GISSVROOS School Hub</strong> • Built for Room 3B Families</p>
         <p style={{ marginTop: '0.25rem', opacity: 0.7 }}>
-          Automated WhatsApp 4-day reminder system active • Connected to custom GoDaddy domain wizard
+          Automated WhatsApp 4-day reminder system active
         </p>
       </footer>
     </div>

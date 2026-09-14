@@ -1,8 +1,8 @@
 import React from 'react';
-import { Globe, School } from 'lucide-react';
+import { ShieldCheck, Plus } from 'lucide-react';
 import ThemeSelector from './ThemeSelector';
 
-export default function Header({ classNameTitle, onOpenDomainGuide, themeMode, onToggleThemeMode }) {
+export default function Header({ classNameTitle, onOpenAdminPortal, themeMode, onToggleThemeMode }) {
   return (
     <header className="sticky-header">
       <div className="brand-badge">
@@ -21,9 +21,9 @@ export default function Header({ classNameTitle, onOpenDomainGuide, themeMode, o
           onToggleThemeMode={onToggleThemeMode}
         />
 
-        <button className="btn-secondary" onClick={onOpenDomainGuide} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Globe size={16} style={{ color: 'var(--primary)' }} />
-          <span>Connect GoDaddy Domain</span>
+        <button className="btn-primary" onClick={onOpenAdminPortal} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <ShieldCheck size={18} />
+          <span>Admin Portal</span>
         </button>
       </div>
     </header>

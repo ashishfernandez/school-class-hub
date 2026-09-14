@@ -55,11 +55,6 @@ export default function AnnouncementsSection({ announcements, onAddClick, onDele
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <button className="btn-primary" onClick={onAddClick}>
-            <Plus size={18} /> Post Announcement
-          </button>
-        </div>
       </div>
 
       {/* Controls & Filter Bar */}

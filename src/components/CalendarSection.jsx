@@ -91,10 +91,6 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
               <List size={16} />
             </button>
           </div>
-
-          <button className="btn-primary" onClick={onAddEventClick}>
-            <Plus size={18} /> Add Class Event
-          </button>
         </div>
       </div>
 
