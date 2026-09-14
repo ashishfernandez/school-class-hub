@@ -89,8 +89,8 @@ body {
 
 .blob {
   position: absolute;
-  filter: blur(80px);
-  opacity: 0.22;
+  filter: blur(150px);
+  opacity: 0.08;
   will-change: transform;
 }
 
@@ -100,7 +100,7 @@ body {
   width: 550px;
   height: 550px;
   background: var(--primary);
-  animation: orbFloat1 18s infinite ease-in-out alternate;
+  animation: orbFloat1 22s infinite ease-in-out alternate;
 }
 
 .blob-2 {
@@ -109,7 +109,7 @@ body {
   width: 500px;
   height: 500px;
   background: #2b2d2f;
-  animation: orbFloat2 22s infinite ease-in-out alternate;
+  animation: orbFloat2 26s infinite ease-in-out alternate;
 }
 
 .blob-3 {
@@ -118,11 +118,11 @@ body {
   width: 420px;
   height: 420px;
   background: #ffca28;
-  animation: orbFloat3 16s infinite ease-in-out alternate;
+  animation: orbFloat3 20s infinite ease-in-out alternate;
 }
 
 [data-theme="dark"] .blob {
-  opacity: 0.32;
+  opacity: 0.14;
 }
 
 @keyframes orbFloat1 {
