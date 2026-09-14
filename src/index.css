@@ -324,33 +324,33 @@ body {
 }
 
 .badge-field-trip {
-  background: rgba(16, 185, 129, 0.18);
-  color: #10b981;
-  border: 1px solid #10b981;
+  background: #10b981;
+  color: #ffffff;
+  border: none;
 }
 
 .badge-class-event {
-  background: rgba(139, 92, 246, 0.18);
-  color: #8b5cf6;
-  border: 1px solid #8b5cf6;
+  background: #8b5cf6;
+  color: #ffffff;
+  border: none;
 }
 
 .badge-school-event {
-  background: rgba(6, 182, 212, 0.18);
-  color: #06b6d4;
-  border: 1px solid #06b6d4;
+  background: #06b6d4;
+  color: #ffffff;
+  border: none;
 }
 
 .badge-for-teacher {
-  background: rgba(244, 63, 94, 0.18);
-  color: #f43f5e;
-  border: 1px solid #f43f5e;
+  background: #f43f5e;
+  color: #ffffff;
+  border: none;
 }
 
 .badge-other {
-  background: rgba(99, 102, 241, 0.18);
-  color: #6366f1;
-  border: 1px solid #6366f1;
+  background: #6366f1;
+  color: #ffffff;
+  border: none;
 }
 
 /* Ticker Bar */

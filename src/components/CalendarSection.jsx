@@ -48,11 +48,11 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
 
   const getCategoryColor = (category) => {
     switch ((category || '').toLowerCase()) {
-      case 'field trip': return { bg: 'rgba(16, 185, 129, 0.18)', border: '#10b981', color: '#10b981' };
-      case 'class event': return { bg: 'rgba(139, 92, 246, 0.18)', border: '#8b5cf6', color: '#8b5cf6' };
-      case 'school event': return { bg: 'rgba(6, 182, 212, 0.18)', border: '#06b6d4', color: '#06b6d4' };
-      case 'for teacher': return { bg: 'rgba(244, 63, 94, 0.18)', border: '#f43f5e', color: '#f43f5e' };
-      default: return { bg: 'rgba(99, 102, 241, 0.18)', border: '#6366f1', color: '#6366f1' };
+      case 'field trip': return { bg: '#10b981', border: '#10b981', color: '#ffffff' };
+      case 'class event': return { bg: '#8b5cf6', border: '#8b5cf6', color: '#ffffff' };
+      case 'school event': return { bg: '#06b6d4', border: '#06b6d4', color: '#ffffff' };
+      case 'for teacher': return { bg: '#f43f5e', border: '#f43f5e', color: '#ffffff' };
+      default: return { bg: '#6366f1', border: '#6366f1', color: '#ffffff' };
     }
   };
 

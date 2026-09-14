@@ -21,9 +21,13 @@ export default function Header({ classNameTitle, onOpenAdminPortal, themeMode, o
           onToggleThemeMode={onToggleThemeMode}
         />
 
-        <button className="btn-primary" onClick={onOpenAdminPortal} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <ShieldCheck size={18} />
-          <span>Parent Rep Admin Portal</span>
+        <button
+          className="btn-icon"
+          onClick={onOpenAdminPortal}
+          title="Parent Rep Admin Portal"
+          style={{ borderRadius: 0 }}
+        >
+          <ShieldCheck size={18} style={{ color: 'var(--primary)' }} />
         </button>
       </div>
     </header>
