@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
-import { X, Calendar as CalendarIcon, MapPin, Clock, Plus, Bell } from 'lucide-react';
+import { X, Calendar as CalendarIcon, MapPin, Clock, Plus, Bell, User } from 'lucide-react';
 import { calculateReminderDate, formatDateString } from '../utils/whatsappHelper';
 import { linkify } from '../utils/linkify';
+
+const MONTHS_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// Format a 'YYYY-MM-DD' string as 'Mmm DD, YYYY' (e.g. "Sep 23, 2026")
+const formatDate = (dateStr) => {
+  if (!dateStr) return '';
+  const [y, m, d] = String(dateStr).split('-').map(Number);
+  if (!y || !m || !d) return dateStr;
+  return `${MONTHS_ABBR[m - 1]} ${String(d).padStart(2, '0')}, ${y}`;
+};
 
 // Map a category to its themed badge color class (matches the rest of the app).
 const getBadgeClass = (category) => {
@@ -179,7 +189,7 @@ export default function EventModal({ isOpen, onClose, selectedEvent, isCreateMod
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem', background: 'var(--bg-secondary)', padding: '1rem', borderRadius: '1rem', fontSize: '0.9rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <CalendarIcon size={16} style={{ color: 'var(--primary)' }} />
-            <span><strong>Date:</strong> {selectedEvent.date}</span>
+            <span><strong>Date:</strong> {formatDate(selectedEvent.date)}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Clock size={16} style={{ color: 'var(--primary)' }} />
@@ -188,6 +198,10 @@ export default function EventModal({ isOpen, onClose, selectedEvent, isCreateMod
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <MapPin size={16} style={{ color: 'var(--primary)' }} />
             <span><strong>Location:</strong> {selectedEvent.location || 'School'}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <User size={16} style={{ color: 'var(--primary)' }} />
+            <span><strong>Posted by:</strong> {selectedEvent.organizer || 'Parent Rep'}</span>
           </div>
         </div>
 

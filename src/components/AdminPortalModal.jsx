@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { X, Megaphone, Calendar as CalendarIcon, ShieldCheck, Lock, Unlock, KeyRound, AlertCircle, Send, Bell, CheckSquare, Trash2, Pin, PinOff, ArrowUp, ArrowDown } from 'lucide-react';
-import { calculateReminderDate, formatDateString } from '../utils/whatsappHelper';
+import { X, Megaphone, Calendar as CalendarIcon, ShieldCheck, Lock, Unlock, KeyRound, AlertCircle, Send, CheckSquare, Trash2, Pin, PinOff, ArrowUp, ArrowDown } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, onSaveEvent, announcements = [], onDeleteAnnouncement, onReorderAnnouncement, onTogglePinAnnouncement, onToggleMarqueeAnnouncement, events = [], onDeleteEvent }) {
@@ -91,8 +90,6 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
     setMarquee(false);
     handleClose();
   };
-
-  const calculatedReminderDate = date ? formatDateString(calculateReminderDate(date)) : '';
 
   return (
     <div className="modal-overlay" onClick={handleClose}>
@@ -328,16 +325,6 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                 <label htmlFor="marqueePost" style={{ fontSize: '0.85rem', cursor: 'pointer', fontWeight: 600 }}>
                   Show in top marquee alert banner
                 </label>
-              </div>
-            )}
-
-            {(destination === 'calendar' || destination === 'both') && date && (
-              <div style={{ background: 'rgba(37, 211, 102, 0.12)', border: '1px solid rgba(37, 211, 102, 0.3)', padding: '0.75rem 1rem', fontSize: '0.85rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Bell size={16} style={{ color: '#25D366' }} />
-                <span>
-                  <strong>Automated 4-Day WhatsApp Reminder:</strong> Scheduled to trigger on{' '}
-                  <strong>{calculatedReminderDate}</strong> (4 days before event).
-                </span>
               </div>
             )}
 

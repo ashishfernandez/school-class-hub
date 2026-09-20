@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Plus, MapPin, Clock, Download, Bell, Filter, List, Grid } from 'lucide-react';
-import { calculateReminderDate, getReminderStatus } from '../utils/whatsappHelper';
-import { downloadIcsFile } from '../utils/icsGenerator';
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Plus, MapPin, Clock, Filter, List, Grid } from 'lucide-react';
+
+const MONTHS_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 // Parse a 'YYYY-MM-DD' string into a local Date (avoids UTC timezone shifting the day)
 const parseLocalDate = (dateStr) => {
@@ -182,8 +182,10 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
               </div>
             ) : (
               filteredEvents.map(evt => {
-                const status = getReminderStatus(evt.date);
                 const style = getCategoryColor(evt.category);
+                const parsed = parseLocalDate(evt.date);
+                const monthAbbr = parsed ? MONTHS_ABBR[parsed.getMonth()] : '';
+                const dayNum = parsed ? parsed.getDate() : (evt.date || '').split('-')[2];
                 return (
                   <div
                     key={evt.id}
@@ -192,12 +194,12 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
                     onClick={() => onSelectEvent(evt)}
                   >
                     <div className="agenda-row-main" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                      <div style={{ textAlign: 'center', padding: '0.6rem 1rem', background: style.bg, borderRadius: '0.85rem', border: `1px solid ${style.border}`, minWidth: '75px' }}>
-                        <span style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: style.color, textTransform: 'uppercase' }}>
-                          {evt.category}
+                      <div style={{ flexShrink: 0, width: '68px', height: '64px', background: style.bg, border: `1px solid ${style.border}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                        <span style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: style.color, textTransform: 'uppercase', lineHeight: 1.1 }}>
+                          {monthAbbr}
                         </span>
-                        <span style={{ fontSize: '1.1rem', fontWeight: 800, color: style.color }}>
-                          {evt.date.split('-')[2]}
+                        <span style={{ fontSize: '1.35rem', fontWeight: 800, color: style.color, lineHeight: 1.1 }}>
+                          {dayNum}
                         </span>
                       </div>
 
@@ -208,23 +210,6 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
                           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><MapPin size={14} /> {evt.location}</span>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="agenda-row-actions" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      <span className="badge badge-general" style={{ fontSize: '0.7rem' }}>
-                        {status.label}
-                      </span>
-                      <button
-                        className="btn-secondary"
-                        style={{ padding: '0.4rem 0.75rem', fontSize: '0.8rem' }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          downloadIcsFile(evt);
-                        }}
-                        title="Download .ics Calendar File"
-                      >
-                        <Download size={14} /> iCal
-                      </button>
                     </div>
                   </div>
                 );
