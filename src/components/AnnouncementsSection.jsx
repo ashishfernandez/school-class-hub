@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Megaphone, Pin, Search, Plus, Bell, Calendar, Sparkles, Filter, ChevronDown, ChevronRight, Clock } from 'lucide-react';
+import { Megaphone, Pin, Search, Plus, Bell, Calendar, Sparkles, Filter, ChevronDown, ChevronRight, History } from 'lucide-react';
 
 const MONTHS_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -203,7 +203,7 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
             aria-expanded={showPrevious}
           >
             {showPrevious ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
-            <Clock size={16} />
+            <History size={16} />
             <span>Previous events</span>
             <span
               style={{
