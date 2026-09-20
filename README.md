@@ -1,4 +1,4 @@
-# 🏫 ClassConnect Hub - Dynamic School Class Website
+# 🏫 Classroom Hub - Dynamic School Class Website
 
 A dynamic, modern, beautifully styled web application built for your kid's school class. Features announcements, an interactive live calendar of events, automated 4-day advance WhatsApp reminders, dynamic light/dark modes with color accents, and a step-by-step GoDaddy custom domain deployment guide.
 
