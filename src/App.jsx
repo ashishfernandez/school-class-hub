@@ -6,6 +6,7 @@ import CalendarSection from './components/CalendarSection';
 import EventModal from './components/EventModal';
 import AdminPortalModal from './components/AdminPortalModal';
 import AnnouncementDetailsModal from './components/AnnouncementDetailsModal';
+import SiteGate from './components/SiteGate';
 
 import { getStoredSettings, saveStoredSettings } from './utils/storage';
 import {
@@ -29,6 +30,17 @@ export default function App() {
 
   // Date the calendar should jump to when a new event is added (so it's visible)
   const [calendarFocusDate, setCalendarFocusDate] = useState(null);
+
+  // Site-wide password gate: hides the site until the visitor enters the password.
+  // Remembered per browser session (re-prompts when the browser/session is closed).
+  const [siteUnlocked, setSiteUnlocked] = useState(
+    () => typeof sessionStorage !== 'undefined' && sessionStorage.getItem('gissvroos_site_unlocked') === 'true'
+  );
+
+  const handleUnlockSite = () => {
+    try { sessionStorage.setItem('gissvroos_site_unlocked', 'true'); } catch (e) { /* ignore */ }
+    setSiteUnlocked(true);
+  };
 
   // Sync settings with DOM attributes for light/dark theme
   useEffect(() => {
@@ -158,6 +170,11 @@ export default function App() {
     setSettings(newSettings);
     saveStoredSettings(newSettings);
   };
+
+  // Gate the entire site behind a password until unlocked.
+  if (!siteUnlocked) {
+    return <SiteGate onUnlock={handleUnlockSite} />;
+  }
 
   return (
     <div className="app-container">
