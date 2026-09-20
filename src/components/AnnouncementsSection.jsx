@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Megaphone, Pin, Search, Plus, Bell, Calendar, Sparkles, Filter } from 'lucide-react';
-import { linkify } from '../utils/linkify';
 
 const MONTHS_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -47,11 +46,7 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
             <span>
               <strong>{item.title}</strong>
               <span style={{ marginLeft: '0.5rem', fontWeight: 600, fontSize: '0.85rem', opacity: 0.75 }}>{formatTileDate(item.date)}</span>
-              <strong>:</strong> {linkify(item.content)}
             </span>
-          </div>
-          <div style={{ fontSize: '0.8rem', opacity: 0.8, whiteSpace: 'nowrap' }}>
-            By {item.author}
           </div>
         </div>
       ))}
