@@ -182,9 +182,9 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
         )}
       </div>
 
-      {/* Previous events (expired announcements) — plain collapsible toggle */}
-      {pastAnnouncements.length > 0 && (
-        <div style={{ marginTop: '2rem' }}>
+      {/* Previous events (expired announcements) — plain collapsible toggle.
+          Always shown; the counter reads 0 when there are none. */}
+      <div style={{ marginTop: '2rem' }}>
           <button
             type="button"
             onClick={() => setShowPrevious((v) => !v)}
@@ -220,12 +220,17 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
           </button>
 
           {showPrevious && (
-            <div className="announcements-grid" style={{ marginTop: '1rem' }}>
-              {pastAnnouncements.map((item) => renderCard(item, true))}
-            </div>
+            pastAnnouncements.length > 0 ? (
+              <div className="announcements-grid" style={{ marginTop: '1rem' }}>
+                {pastAnnouncements.map((item) => renderCard(item, true))}
+              </div>
+            ) : (
+              <p style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                No previous events.
+              </p>
+            )
           )}
         </div>
-      )}
     </section>
   );
 }
