@@ -204,7 +204,19 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
           >
             {showPrevious ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
             <Clock size={16} />
-            <span>Previous events {pastAnnouncements.length}</span>
+            <span>Previous events</span>
+            <span
+              style={{
+                border: '1px solid rgba(255, 184, 0, 0.4)',
+                color: 'var(--primary)',
+                fontSize: '0.75rem',
+                fontWeight: 800,
+                lineHeight: 1,
+                padding: '0.15rem 0.45rem',
+              }}
+            >
+              {pastAnnouncements.length}
+            </span>
           </button>
 
           {showPrevious && (
