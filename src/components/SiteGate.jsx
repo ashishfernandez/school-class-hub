@@ -58,7 +58,7 @@ export default function SiteGate({ onUnlock }) {
           />
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Lock size={20} style={{ color: 'var(--primary)' }} />
-            <h1 style={{ fontSize: '1.35rem', fontWeight: 800, margin: 0 }}>Private Class Hub</h1>
+            <h1 style={{ fontSize: '1.35rem', fontWeight: 800, margin: 0 }}>Class Events Site</h1>
           </div>
           <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary, #94a3b8)', lineHeight: 1.5, margin: 0 }}>
             This site is password protected. Please enter the password to continue.
