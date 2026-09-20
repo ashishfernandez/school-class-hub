@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, User, Calendar as CalendarIcon, Pin, Megaphone } from 'lucide-react';
+import { X, User, Calendar as CalendarIcon } from 'lucide-react';
 import { linkify } from '../utils/linkify';
 
 const MONTHS_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -30,19 +30,7 @@ export default function AnnouncementDetailsModal({ isOpen, onClose, announcement
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-            <span className={`badge ${getBadgeClass(announcement.category)}`}>{announcement.category}</span>
-            {announcement.marquee && (
-              <span style={{ color: 'var(--primary)', display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '0.75rem', fontWeight: 700 }}>
-                <Megaphone size={12} /> In Marquee
-              </span>
-            )}
-            {announcement.pinned && (
-              <span style={{ color: 'var(--primary)', display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '0.75rem', fontWeight: 700 }}>
-                <Pin size={12} /> Pinned
-              </span>
-            )}
-          </div>
+          <span className={`badge ${getBadgeClass(announcement.category)}`}>{announcement.category}</span>
           <button className="btn-icon" onClick={onClose}><X size={18} /></button>
         </div>
 
@@ -60,13 +48,13 @@ export default function AnnouncementDetailsModal({ isOpen, onClose, announcement
         </div>
 
         <div className="form-group">
-          <label className="form-label">Details</label>
+          <label className="form-label">Description & Notes</label>
           <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
-            {announcement.content ? linkify(announcement.content) : 'No additional details provided.'}
+            {announcement.content ? linkify(announcement.content) : 'No additional notes provided.'}
           </p>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end', marginTop: '1.5rem', flexWrap: 'wrap' }}>
           <button className="btn-secondary" onClick={onClose}>Close</button>
         </div>
       </div>
