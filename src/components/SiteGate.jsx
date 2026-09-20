@@ -35,17 +35,18 @@ export default function SiteGate({ onUnlock }) {
         alignItems: 'center',
         justifyContent: 'center',
         padding: '1.5rem',
-        background: 'var(--bg-primary, #0f172a)',
+        background: 'var(--bg-main, #1f2022)',
       }}
     >
       <div
         style={{
           width: '100%',
           maxWidth: '420px',
-          background: 'var(--bg-secondary, #1e293b)',
-          border: '1px solid var(--border-color, #334155)',
+          background: 'var(--card-bg, #2b2d2f)',
+          color: 'var(--text-main, #ffffff)',
+          border: '1px solid var(--border-color, #44474b)',
           padding: '2rem',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.45)',
+          boxShadow: 'var(--shadow-lg, 0 12px 30px rgba(0,0,0,0.7))',
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
