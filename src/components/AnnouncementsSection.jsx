@@ -11,6 +11,24 @@ const formatTileDate = (dateStr) => {
   return `${MONTHS_ABBR[m - 1]} ${String(d).padStart(2, '0')}, ${y}`;
 };
 
+// Return a human label for how far the date is from today
+// (e.g. "Today", "1 day away", "5 days away", "3 days ago").
+const getDaysAwayLabel = (dateStr) => {
+  if (!dateStr) return '';
+  const [y, m, d] = dateStr.split('-').map(Number);
+  if (!y || !m || !d) return '';
+  const target = new Date(y, m - 1, d);
+  target.setHours(0, 0, 0, 0);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const diff = Math.round((target - today) / 86400000);
+  if (diff === 0) return 'Today';
+  if (diff === 1) return '1 day away';
+  if (diff > 1) return `${diff} days away`;
+  if (diff === -1) return '1 day ago';
+  return `${Math.abs(diff)} days ago`;
+};
+
 export default function AnnouncementsSection({ announcements, onAddClick, onSelectAnnouncement }) {
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -43,10 +61,10 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
             <span className="badge badge-urgent" style={{ display: 'inline-flex', alignItems: 'center' }} title="Marquee Announcement" aria-label="Marquee Announcement">
               <Pin size={12} />
             </span>
-            <span>
-              <strong>{item.title}</strong>
-              <span style={{ marginLeft: '0.5rem', fontWeight: 600, fontSize: '0.85rem', opacity: 0.75 }}>{formatTileDate(item.date)}</span>
-            </span>
+            <strong>{item.title}</strong>
+          </div>
+          <div style={{ fontWeight: 600, fontSize: '0.85rem', opacity: 0.8, whiteSpace: 'nowrap', flexShrink: 0 }}>
+            {formatTileDate(item.date)}
           </div>
         </div>
       ))}
@@ -110,9 +128,14 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
                   )}
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '0.75rem' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.75rem' }}>
                   <h3 className="card-title" style={{ marginBottom: 0 }}>{item.title}</h3>
-                  <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', whiteSpace: 'nowrap', flexShrink: 0 }}>{formatTileDate(item.date)}</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', flexShrink: 0 }}>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>{formatTileDate(item.date)}</span>
+                    {getDaysAwayLabel(item.date) && (
+                      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--primary)', whiteSpace: 'nowrap' }}>{getDaysAwayLabel(item.date)}</span>
+                    )}
+                  </div>
                 </div>
               </div>
 
