@@ -204,7 +204,7 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
           >
             {showPrevious ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
             <History size={16} />
-            <span>Previous events</span>
+            <span>Memory lane</span>
             <span
               style={{
                 border: '1px solid rgba(255, 184, 0, 0.4)',
