@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Megaphone, Pin, Search, Plus, Bell, Calendar, Sparkles, Filter, ChevronDown, ChevronRight, History } from 'lucide-react';
+import { Megaphone, Pin, Search, Plus, Bell, Calendar, Sparkles, Filter, ChevronDown, ChevronRight, Clock } from 'lucide-react';
 
 const MONTHS_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -182,54 +182,33 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
         )}
       </div>
 
-      {/* Previous events (expired announcements) — subtle yellow-themed, collapsible */}
+      {/* Previous events (expired announcements) — plain collapsible toggle */}
       {pastAnnouncements.length > 0 && (
         <div style={{ marginTop: '2rem' }}>
           <button
             type="button"
             onClick={() => setShowPrevious((v) => !v)}
             style={{
-              width: '100%',
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.6rem',
-              padding: '0.75rem 1rem',
-              background: 'rgba(255, 184, 0, 0.08)',
-              border: '1px solid rgba(255, 184, 0, 0.35)',
+              gap: '0.5rem',
+              padding: 0,
+              background: 'none',
+              border: 'none',
               color: 'var(--primary)',
               fontWeight: 700,
               fontSize: '0.9rem',
               cursor: 'pointer',
-              textAlign: 'left',
             }}
             aria-expanded={showPrevious}
           >
             {showPrevious ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
-            <History size={16} />
-            <span>Previous events</span>
-            <span
-              style={{
-                marginLeft: 'auto',
-                background: 'rgba(255, 184, 0, 0.18)',
-                color: 'var(--primary)',
-                fontSize: '0.75rem',
-                fontWeight: 800,
-                padding: '0.15rem 0.5rem',
-              }}
-            >
-              {pastAnnouncements.length}
-            </span>
+            <Clock size={16} />
+            <span>Previous events {pastAnnouncements.length}</span>
           </button>
 
           {showPrevious && (
-            <div
-              className="announcements-grid"
-              style={{
-                marginTop: '1rem',
-                paddingLeft: '0.75rem',
-                borderLeft: '3px solid rgba(255, 184, 0, 0.35)',
-              }}
-            >
+            <div className="announcements-grid" style={{ marginTop: '1rem' }}>
               {pastAnnouncements.map((item) => renderCard(item, true))}
             </div>
           )}
