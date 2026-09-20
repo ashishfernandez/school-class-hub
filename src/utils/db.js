@@ -40,6 +40,8 @@ export async function persistAnnouncements(list) {
     content: a.content,
     author: a.author,
     date: a.date,
+    time: a.time ?? '',
+    location: a.location ?? '',
     pinned: !!a.pinned,
     marquee: !!a.marquee,
     position: i

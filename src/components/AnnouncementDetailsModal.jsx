@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, User, Calendar as CalendarIcon } from 'lucide-react';
+import { X, User, Calendar as CalendarIcon, Clock, MapPin } from 'lucide-react';
 import { linkify } from '../utils/linkify';
 
 const MONTHS_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -40,6 +40,14 @@ export default function AnnouncementDetailsModal({ isOpen, onClose, announcement
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <CalendarIcon size={16} style={{ color: 'var(--primary)' }} />
             <span><strong>Date:</strong> {formatDate(announcement.date)}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Clock size={16} style={{ color: 'var(--primary)' }} />
+            <span><strong>Time:</strong> {announcement.time || 'All Day'}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <MapPin size={16} style={{ color: 'var(--primary)' }} />
+            <span><strong>Location:</strong> {announcement.location || 'School'}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <User size={16} style={{ color: 'var(--primary)' }} />

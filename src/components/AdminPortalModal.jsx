@@ -59,6 +59,8 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
         content,
         author,
         date: postDate,
+        time,
+        location,
         marquee,
         pinned: false
       };
@@ -257,7 +259,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
               />
             </div>
 
-            {/* DATE & TIME (Required if calendar or both) */}
+            {/* DATE & TIME (Date required if calendar or both) */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div className="form-group">
                 <label className="form-label">
@@ -272,32 +274,28 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                 />
               </div>
 
-              {destination !== 'banner' && (
-                <div className="form-group">
-                  <label className="form-label">Time</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    placeholder="e.g. 09:00 AM - 02:00 PM"
-                    value={time}
-                    onChange={(e) => setTime(e.target.value)}
-                  />
-                </div>
-              )}
-            </div>
-
-            {destination !== 'banner' && (
               <div className="form-group">
-                <label className="form-label">Location</label>
+                <label className="form-label">Time</label>
                 <input
                   type="text"
                   className="form-input"
-                  placeholder="e.g. Metro Zoo & Botanical Garden"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="e.g. 09:00 AM - 02:00 PM"
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
                 />
               </div>
-            )}
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Location</label>
+              <input
+                type="text"
+                className="form-input"
+                placeholder="e.g. Metro Zoo & Botanical Garden"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+            </div>
 
             {/* CONTENT & DETAILS */}
             <div className="form-group">

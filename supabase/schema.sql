@@ -10,11 +10,18 @@ create table if not exists public.announcements (
   content    text,
   author     text,
   date       text,               -- stored as 'YYYY-MM-DD'
+  time       text,
+  location   text,
   pinned     boolean default false,
   marquee    boolean default false,
   position   integer default 0,  -- controls order shown on the main page
   created_at timestamptz default now()
 );
+
+-- If the announcements table already exists from an earlier version, add the
+-- new columns (safe to run repeatedly):
+alter table public.announcements add column if not exists time     text;
+alter table public.announcements add column if not exists location text;
 
 -- ============================== EVENTS ================================
 create table if not exists public.events (
