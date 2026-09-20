@@ -10,7 +10,7 @@ export default function Header({ classNameTitle, onOpenAdminPortal, themeMode, o
           <img src="/favicon.svg" alt="GISSVROOS Logo" style={{ width: '28px', height: '28px' }} />
         </div>
         <div>
-          <h1 className="brand-title">GISSVROOS</h1>
+          <h1 className="brand-title">KANGAROOS</h1>
           <div className="brand-subtitle">{classNameTitle}</div>
         </div>
       </div>
