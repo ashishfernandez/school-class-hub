@@ -366,9 +366,10 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                 {announcements.map((item, index) => (
                   <div
                     key={item.id}
+                    className="manage-row"
                     style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.75rem', padding: '0.75rem', background: 'var(--bg-secondary)', border: '1px solid var(--border-color)' }}
                   >
-                    <div style={{ minWidth: 0 }}>
+                    <div className="manage-row-info" style={{ minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem', flexWrap: 'wrap' }}>
                         <span className="badge badge-general" style={{ fontSize: '0.65rem' }}>{item.category}</span>
                         {item.marquee && (
@@ -386,7 +387,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>By {item.author} • {item.date}</div>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexShrink: 0 }}>
+                    <div className="manage-row-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexShrink: 0 }}>
                       {/* Reorder controls */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                         <button
@@ -468,9 +469,10 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                 {events.map((evt) => (
                   <div
                     key={evt.id}
+                    className="manage-row"
                     style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.75rem', padding: '0.75rem', background: 'var(--bg-secondary)', border: '1px solid var(--border-color)' }}
                   >
-                    <div style={{ minWidth: 0 }}>
+                    <div className="manage-row-info" style={{ minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem', flexWrap: 'wrap' }}>
                         <span className="badge badge-general" style={{ fontSize: '0.65rem' }}>{evt.category}</span>
                       </div>

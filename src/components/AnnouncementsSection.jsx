@@ -71,8 +71,8 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
       </div>
 
       {/* Controls & Search Bar */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-        <div style={{ position: 'relative', width: '260px' }}>
+      <div className="announcements-controls" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+        <div className="search-box" style={{ position: 'relative', width: '260px' }}>
           <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input
             type="text"

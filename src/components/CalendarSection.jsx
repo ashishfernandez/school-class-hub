@@ -183,11 +183,11 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
                 return (
                   <div
                     key={evt.id}
-                    className="glass-card"
+                    className="glass-card agenda-row"
                     style={{ padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', cursor: 'pointer' }}
                     onClick={() => onSelectEvent(evt)}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+                    <div className="agenda-row-main" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
                       <div style={{ textAlign: 'center', padding: '0.6rem 1rem', background: style.bg, borderRadius: '0.85rem', border: `1px solid ${style.border}`, minWidth: '75px' }}>
                         <span style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: style.color, textTransform: 'uppercase' }}>
                           {evt.category}
@@ -206,7 +206,7 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
                       </div>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <div className="agenda-row-actions" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                       <span className="badge badge-general" style={{ fontSize: '0.7rem' }}>
                         {status.label}
                       </span>
