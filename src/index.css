@@ -263,6 +263,12 @@ body {
   border: none;
 }
 
+.badge-photo-day {
+  background: #ec4899;
+  color: #ffffff;
+  border: none;
+}
+
 .badge-other {
   background: #6366f1;
   color: #ffffff;

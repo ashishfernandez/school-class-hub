@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, User, Calendar as CalendarIcon, Pin, Megaphone } from 'lucide-react';
+import { linkify } from '../utils/linkify';
 
 const MONTHS_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -18,6 +19,7 @@ const getBadgeClass = (category) => {
   if (cat === 'school event') return 'badge-school-event';
   if (cat === 'for teacher') return 'badge-for-teacher';
   if (cat === 'p/t conference') return 'badge-pt-conference';
+  if (cat === 'photo day') return 'badge-photo-day';
   return 'badge-other';
 };
 
@@ -59,8 +61,8 @@ export default function AnnouncementDetailsModal({ isOpen, onClose, announcement
 
         <div className="form-group">
           <label className="form-label">Details</label>
-          <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-            {announcement.content || 'No additional details provided.'}
+          <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+            {announcement.content ? linkify(announcement.content) : 'No additional details provided.'}
           </p>
         </div>
 

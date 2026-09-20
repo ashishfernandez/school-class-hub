@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Megaphone, Pin, Search, Plus, Bell, Calendar, Sparkles, Filter } from 'lucide-react';
+import { linkify } from '../utils/linkify';
 
 const MONTHS_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -30,6 +31,7 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
     if (cat === 'school event') return 'badge-school-event';
     if (cat === 'for teacher') return 'badge-for-teacher';
     if (cat === 'p/t conference') return 'badge-pt-conference';
+    if (cat === 'photo day') return 'badge-photo-day';
     return 'badge-other';
   };
 
@@ -45,7 +47,7 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
             <span>
               <strong>{item.title}</strong>
               <span style={{ marginLeft: '0.5rem', fontWeight: 600, fontSize: '0.85rem', opacity: 0.75 }}>{formatTileDate(item.date)}</span>
-              <strong>:</strong> {item.content}
+              <strong>:</strong> {linkify(item.content)}
             </span>
           </div>
           <div style={{ fontSize: '0.8rem', opacity: 0.8, whiteSpace: 'nowrap' }}>
@@ -113,11 +115,10 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
                   )}
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '0.75rem' }}>
                   <h3 className="card-title" style={{ marginBottom: 0 }}>{item.title}</h3>
                   <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', whiteSpace: 'nowrap', flexShrink: 0 }}>{formatTileDate(item.date)}</span>
                 </div>
-                <p className="card-body">{item.content}</p>
               </div>
 
               <div className="card-footer">

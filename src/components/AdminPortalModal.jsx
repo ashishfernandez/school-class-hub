@@ -220,6 +220,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                   { id: 'School Event', label: 'SCHOOL EVENT', color: '#06b6d4' },
                   { id: 'For Teacher', label: 'FOR TEACHER', color: '#f43f5e' },
                   { id: 'P/T Conference', label: 'P/T CONFERENCE', color: '#f97316' },
+                  { id: 'Photo Day', label: 'PHOTO DAY', color: '#ec4899' },
                   { id: 'Other', label: 'OTHER', color: '#6366f1' }
                 ].map((cat) => {
                   const isSelected = category.toLowerCase() === cat.id.toLowerCase();

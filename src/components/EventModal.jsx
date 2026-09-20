@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Calendar as CalendarIcon, MapPin, Clock, Plus, Bell } from 'lucide-react';
 import { calculateReminderDate, formatDateString } from '../utils/whatsappHelper';
+import { linkify } from '../utils/linkify';
 
 export default function EventModal({ isOpen, onClose, selectedEvent, isCreateMode, onSaveEvent, userPhone }) {
   const [title, setTitle] = useState('');
@@ -180,8 +181,8 @@ export default function EventModal({ isOpen, onClose, selectedEvent, isCreateMod
 
         <div className="form-group">
           <label className="form-label">Description & Notes</label>
-          <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-            {selectedEvent.description || 'No additional notes provided.'}
+          <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+            {selectedEvent.description ? linkify(selectedEvent.description) : 'No additional notes provided.'}
           </p>
         </div>
 
