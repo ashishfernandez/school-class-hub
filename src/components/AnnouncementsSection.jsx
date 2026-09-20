@@ -61,7 +61,7 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
             <Megaphone size={22} />
           </div>
           <div>
-            <h2>General Announcements</h2>
+            <h2>Announcements</h2>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>
               Top most things to know right now
             </p>
