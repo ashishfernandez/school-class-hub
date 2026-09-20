@@ -144,13 +144,6 @@ export default function App() {
 
   return (
     <div className="app-container">
-      {/* Ambient background glowing orbs */}
-      <div className="ambient-bg">
-        <div className="blob blob-1"></div>
-        <div className="blob blob-2"></div>
-        <div className="blob blob-3"></div>
-      </div>
-
       {/* Header Bar */}
       <Header
         classNameTitle={settings.className}
