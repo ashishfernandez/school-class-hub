@@ -37,8 +37,9 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
   const handleNextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
   const handleToday = () => setCurrentDate(new Date(today.getFullYear(), today.getMonth(), 1));
 
-  // Calendar calculations
-  const firstDayOfMonth = new Date(year, month, 1).getDay();
+  // Calendar calculations (week starts on Monday)
+  // getDay() returns 0=Sun..6=Sat; shift so Monday is the first column.
+  const firstDayOfMonth = (new Date(year, month, 1).getDay() + 6) % 7;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const calendarDays = [];
@@ -125,7 +126,7 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
         {viewMode === 'grid' ? (
           <div>
             <div className="calendar-grid">
-              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
                 <div key={day} className="day-name">{day}</div>
               ))}
 
@@ -136,9 +137,11 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
 
                 const dayEvents = getEventsForDay(dayNum);
                 const isToday = dayNum === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+                const dayOfWeek = new Date(year, month, dayNum).getDay();
+                const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
                 return (
-                  <div key={`day-${dayNum}`} className={`calendar-day ${isToday ? 'today' : ''}`}>
+                  <div key={`day-${dayNum}`} className={`calendar-day ${isToday ? 'today' : ''} ${isWeekend ? 'weekend' : ''}`}>
                     <div className="day-header">
                       <span className="day-number">{dayNum}</span>
                       {dayEvents.length > 0 && (

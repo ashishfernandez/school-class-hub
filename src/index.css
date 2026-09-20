@@ -32,6 +32,7 @@
   
   --input-bg: #ffffff;
   --header-bg: #ffffff;
+  --weekend-bg: #ececee;
 }
 
 [data-theme="dark"] {
@@ -53,6 +54,7 @@
 
   --input-bg: #1f2022;
   --header-bg: #2b2d2f;
+  --weekend-bg: #3a3d40;
 }
 
 * {
@@ -456,6 +458,10 @@ body {
 .calendar-day.empty {
   opacity: 0.3;
   background: transparent;
+}
+
+.calendar-day.weekend {
+  background: var(--weekend-bg);
 }
 
 .calendar-day.today {
