@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { X, Megaphone, Calendar as CalendarIcon, ShieldCheck, Lock, Unlock, KeyRound, AlertCircle, Send, CheckSquare, Trash2, Pin, PinOff, ArrowUp, ArrowDown } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { X, Megaphone, Calendar as CalendarIcon, ShieldCheck, Lock, Unlock, KeyRound, AlertCircle, Send, CheckSquare, Trash2, Pin, PinOff, ArrowUp, ArrowDown, Pencil } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, onSaveEvent, announcements = [], onDeleteAnnouncement, onReorderAnnouncement, onTogglePinAnnouncement, onToggleMarqueeAnnouncement, events = [], onDeleteEvent }) {
+export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, onSaveEvent, announcements = [], onDeleteAnnouncement, onUpdateAnnouncement, onUpdateEvent, onReorderAnnouncement, onTogglePinAnnouncement, onToggleMarqueeAnnouncement, events = [], onDeleteEvent }) {
   const [password, setPassword] = useState('');
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -17,6 +17,9 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
   const [location, setLocation] = useState('');
   const [content, setContent] = useState('');
   const [marquee, setMarquee] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [editingType, setEditingType] = useState(null); // 'announcement' | 'event'
+  const cardRef = useRef(null);
 
   if (!isOpen) return null;
 
@@ -42,12 +45,86 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
     setErrorMessage('');
   };
 
+  const resetFormFields = () => {
+    setTitle(''); setContent(''); setDate(''); setLocation('');
+    setTime('09:00 AM - 02:00 PM'); setCategory('Field Trip');
+    setAuthor('Parent Rep'); setMarquee(false);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditingType(null);
+    resetFormFields();
+  };
+
+  const startEditAnnouncement = (a) => {
+    setEditingType('announcement');
+    setEditingId(a.id);
+    setTitle(a.title || '');
+    setCategory(a.category || 'Field Trip');
+    setAuthor(a.author || 'Parent Rep');
+    setDate(a.date || '');
+    setTime(a.time || '');
+    setLocation(a.location || '');
+    setContent(a.content || '');
+    setMarquee(!!a.marquee);
+    if (cardRef.current) cardRef.current.scrollTop = 0;
+  };
+
+  const startEditEvent = (ev) => {
+    setEditingType('event');
+    setEditingId(ev.id);
+    setTitle(ev.title || '');
+    setCategory(ev.category || 'Field Trip');
+    setAuthor(ev.organizer || 'Parent Rep');
+    setDate(ev.date || '');
+    setTime(ev.time || '');
+    setLocation(ev.location || '');
+    setContent(ev.description || '');
+    setMarquee(false);
+    if (cardRef.current) cardRef.current.scrollTop = 0;
+  };
+
   const handleSubmitPost = (e) => {
     e.preventDefault();
     if (!title || !content) return;
 
     const todayStr = new Date().toISOString().split('T')[0];
     const postDate = date || todayStr;
+
+    if (editingType === 'announcement') {
+      onUpdateAnnouncement({
+        id: editingId,
+        title,
+        category,
+        priority: category.toLowerCase() === 'urgent' ? 'urgent' : 'general',
+        content,
+        author,
+        date: postDate,
+        time,
+        location,
+        marquee
+      });
+      confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+      cancelEdit();
+      return;
+    }
+
+    if (editingType === 'event') {
+      onUpdateEvent({
+        id: editingId,
+        title,
+        category,
+        date: postDate,
+        time,
+        location: location || 'School Grounds',
+        description: content,
+        organizer: author
+      });
+      confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+      cancelEdit();
+      return;
+    }
 
     // 1. Post to Announcement Banner
     if (destination === 'banner' || destination === 'both') {
@@ -95,7 +172,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
 
   return (
     <div className="modal-overlay" onClick={handleClose}>
-      <div className="modal-card" style={{ maxWidth: '620px' }} onClick={(e) => e.stopPropagation()}>
+      <div className="modal-card" ref={cardRef} style={{ maxWidth: '620px' }} onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <ShieldCheck size={22} style={{ color: 'var(--primary)' }} />
@@ -160,7 +237,19 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
               </button>
             </div>
 
+            {editingType && (
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.75rem', background: 'rgba(99, 102, 241, 0.12)', border: '1px solid var(--primary)', padding: '0.75rem 1rem', marginBottom: '1.25rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', fontWeight: 700, fontSize: '0.85rem' }}>
+                  <Pencil size={16} /> Editing {editingType === 'event' ? 'calendar event' : 'announcement'}
+                </div>
+                <button type="button" className="btn-secondary" style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }} onClick={cancelEdit}>
+                  Cancel edit
+                </button>
+              </div>
+            )}
+
             {/* POST DESTINATION SELECTOR */}
+            {!editingType && (
             <div className="form-group">
               <label className="form-label">Post Destination *</label>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
@@ -195,6 +284,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                 </button>
               </div>
             </div>
+            )}
 
             {/* TITLE & CATEGORY */}
             <div className="form-group">
@@ -311,7 +401,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
             </div>
 
             {/* OPTIONS & WHATSAPP INDICATOR */}
-            {(destination === 'banner' || destination === 'both') && (
+            {((editingType === 'announcement') || (editingType === null && (destination === 'banner' || destination === 'both'))) && (
               <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <input
                   type="checkbox"
@@ -327,9 +417,9 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
             )}
 
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1.5rem' }}>
-              <button type="button" className="btn-secondary" onClick={handleClose}>Cancel</button>
+              <button type="button" className="btn-secondary" onClick={editingType ? cancelEdit : handleClose}>Cancel</button>
               <button type="submit" className="btn-primary">
-                <Send size={16} /> Publish Post ({destination === 'banner' ? 'Announcement' : destination === 'calendar' ? 'Calendar' : 'BOTH'})
+                {editingType ? (<><Pencil size={16} /> Update {editingType === 'event' ? 'Event' : 'Announcement'}</>) : (<><Send size={16} /> Publish Post ({destination === 'banner' ? 'Announcement' : destination === 'calendar' ? 'Calendar' : 'BOTH'})</>)}
               </button>
             </div>
           </form>
@@ -420,6 +510,17 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                         {item.pinned ? <PinOff size={15} /> : <Pin size={15} />}
                       </button>
 
+                      {/* Edit */}
+                      <button
+                        type="button"
+                        onClick={() => startEditAnnouncement(item)}
+                        className="btn-secondary"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '0.4rem 0.6rem', fontSize: '0.75rem', color: 'var(--primary)', borderColor: 'var(--primary)' }}
+                        title="Edit announcement"
+                      >
+                        <Pencil size={14} /> Edit
+                      </button>
+
                       {/* Delete */}
                       <button
                         type="button"
@@ -465,15 +566,26 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                       <div style={{ fontSize: '0.9rem', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{evt.title}</div>
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>{evt.date}{evt.time ? ` • ${evt.time}` : ''}{evt.location ? ` • ${evt.location}` : ''}</div>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => onDeleteEvent && onDeleteEvent(evt.id)}
-                      className="btn-secondary"
-                      style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '0.4rem 0.6rem', fontSize: '0.75rem', color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.4)' }}
-                      title="Delete event"
-                    >
-                      <Trash2 size={14} /> Delete
-                    </button>
+                    <div className="manage-row-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexShrink: 0 }}>
+                      <button
+                        type="button"
+                        onClick={() => startEditEvent(evt)}
+                        className="btn-secondary"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '0.4rem 0.6rem', fontSize: '0.75rem', color: 'var(--primary)', borderColor: 'var(--primary)' }}
+                        title="Edit event"
+                      >
+                        <Pencil size={14} /> Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onDeleteEvent && onDeleteEvent(evt.id)}
+                        className="btn-secondary"
+                        style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '0.4rem 0.6rem', fontSize: '0.75rem', color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.4)' }}
+                        title="Delete event"
+                      >
+                        <Trash2 size={14} /> Delete
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>

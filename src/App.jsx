@@ -10,7 +10,7 @@ import AnnouncementDetailsModal from './components/AnnouncementDetailsModal';
 import { getStoredSettings, saveStoredSettings } from './utils/storage';
 import {
   fetchAnnouncements, persistAnnouncements, removeAnnouncement,
-  fetchEvents, addEvent, removeEvent
+  fetchEvents, addEvent, updateEvent, removeEvent
 } from './utils/db';
 
 export default function App() {
@@ -65,6 +65,15 @@ export default function App() {
     try { await removeAnnouncement(id, updated); } catch (err) { console.error(err); }
   };
 
+  // Update an existing announcement in place (preserves order, pin, marquee, etc.)
+  const handleUpdateAnnouncement = async (updatedNotice) => {
+    const updated = announcements.map(a =>
+      a.id === updatedNotice.id ? { ...a, ...updatedNotice } : a
+    );
+    setAnnouncements(updated);
+    try { await persistAnnouncements(updated); } catch (err) { console.error(err); }
+  };
+
   const handleSelectAnnouncement = (announcement) => {
     setSelectedAnnouncement(announcement);
     setIsAnnouncementDetailsOpen(true);
@@ -109,6 +118,14 @@ export default function App() {
     // Use a unique value each time so repeated adds to the same month still trigger navigation.
     setCalendarFocusDate(`${newEvent.date}#${Date.now()}`);
     try { await addEvent(newEvent, updated); } catch (err) { console.error(err); }
+  };
+
+  const handleUpdateEvent = async (updatedEvent) => {
+    const updated = events.map(e =>
+      e.id === updatedEvent.id ? { ...e, ...updatedEvent } : e
+    );
+    setEvents(updated);
+    try { await updateEvent(updatedEvent, updated); } catch (err) { console.error(err); }
   };
 
   const handleDeleteEvent = async (id) => {
@@ -176,6 +193,8 @@ export default function App() {
         onSaveEvent={handleAddEvent}
         announcements={announcements}
         onDeleteAnnouncement={handleDeleteAnnouncement}
+        onUpdateAnnouncement={handleUpdateAnnouncement}
+        onUpdateEvent={handleUpdateEvent}
         onReorderAnnouncement={handleReorderAnnouncement}
         onTogglePinAnnouncement={handleTogglePinAnnouncement}
         onToggleMarqueeAnnouncement={handleToggleMarqueeAnnouncement}

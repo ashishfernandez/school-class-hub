@@ -89,6 +89,23 @@ export async function addEvent(newEvent, all) {
   if (error) throw error;
 }
 
+export async function updateEvent(evt, all) {
+  if (!isSupabaseEnabled) {
+    saveStoredEvents(all);
+    return;
+  }
+  const { error } = await supabase.from('events').update({
+    title: evt.title,
+    category: evt.category,
+    date: evt.date,
+    time: evt.time ?? '',
+    location: evt.location ?? '',
+    description: evt.description ?? '',
+    organizer: evt.organizer ?? ''
+  }).eq('id', evt.id);
+  if (error) throw error;
+}
+
 export async function removeEvent(id, remaining) {
   if (!isSupabaseEnabled) {
     saveStoredEvents(remaining);
