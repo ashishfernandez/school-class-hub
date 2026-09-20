@@ -7,7 +7,7 @@ export default function Header({ classNameTitle, onOpenAdminPortal, themeMode, o
     <header className="sticky-header">
       <div className="brand-badge">
         <div className="brand-icon-wrapper">
-          <img src="/favicon.svg" alt="GISSVROOS Logo" style={{ width: '28px', height: '28px' }} />
+          <img src="/kangaroo.png" alt="KANGAROOS Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
         <div>
           <h1 className="brand-title">KANGAROOS</h1>
