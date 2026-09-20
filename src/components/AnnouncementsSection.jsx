@@ -66,9 +66,11 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
             </span>
             <strong>{item.title}</strong>
           </div>
-          <div style={{ fontWeight: 600, fontSize: '0.85rem', opacity: 0.8, whiteSpace: 'nowrap', flexShrink: 0 }}>
-            {formatTileDate(item.date)}
-          </div>
+          {item.date && (
+            <div style={{ fontWeight: 600, fontSize: '0.85rem', opacity: 0.8, whiteSpace: 'nowrap', flexShrink: 0 }}>
+              {formatTileDate(item.date)}
+            </div>
+          )}
         </div>
       ))}
 

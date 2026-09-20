@@ -130,6 +130,8 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
     }
 
     // Marquee Only: appears solely in the top scrolling banner, nowhere else.
+    // Date is optional here — if none was picked, store an empty string so the
+    // banner shows just the title (no date).
     if (destination === 'marquee') {
       onSaveAnnouncement({
         id: `anc-${Date.now()}`,
@@ -138,7 +140,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
         priority: category.toLowerCase() === 'urgent' ? 'urgent' : 'general',
         content,
         author,
-        date: postDate,
+        date: date || '',
         time: '',
         location: '',
         marquee: true,
@@ -390,7 +392,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
             {/* DATE & TIME (Time/Location hidden for Marquee-only posts) */}
             {editingType === null && destination === 'marquee' ? (
               <div className="form-group">
-                <label className="form-label">Notice Date *</label>
+                <label className="form-label">Notice Date (optional)</label>
                 <input
                   type="date"
                   className="form-input"
