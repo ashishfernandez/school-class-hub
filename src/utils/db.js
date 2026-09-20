@@ -44,6 +44,7 @@ export async function persistAnnouncements(list) {
     location: a.location ?? '',
     pinned: !!a.pinned,
     marquee: !!a.marquee,
+    marquee_only: !!a.marquee_only,
     position: i
   }));
   const { error } = await supabase.from('announcements').upsert(rows);

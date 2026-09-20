@@ -33,8 +33,11 @@ export default function AnnouncementsSection({ announcements, onAddClick, onSele
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredAnnouncements = announcements.filter(item => {
-    return item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-           item.content.toLowerCase().includes(searchQuery.toLowerCase());
+    // Marquee-only posts appear solely in the top banner, never as tiles.
+    if (item.marquee_only) return false;
+    const q = searchQuery.toLowerCase();
+    return (item.title || '').toLowerCase().includes(q) ||
+           (item.content || '').toLowerCase().includes(q);
   });
 
   // The top marquee banner shows only announcements explicitly added to the

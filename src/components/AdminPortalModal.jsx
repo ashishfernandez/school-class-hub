@@ -87,7 +87,10 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
 
   const handleSubmitPost = (e) => {
     e.preventDefault();
-    if (!title || !content) return;
+    if (!title) return;
+    // Content is required for everything except a create-mode Marquee-only post.
+    const contentRequired = editingType === null && destination !== 'marquee';
+    if (contentRequired && !content) return;
 
     const todayStr = new Date().toISOString().split('T')[0];
     const postDate = date || todayStr;
@@ -126,7 +129,25 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
       return;
     }
 
-    // 1. Post to Announcement Banner
+    // Marquee Only: appears solely in the top scrolling banner, nowhere else.
+    if (destination === 'marquee') {
+      onSaveAnnouncement({
+        id: `anc-${Date.now()}`,
+        title,
+        category,
+        priority: category.toLowerCase() === 'urgent' ? 'urgent' : 'general',
+        content,
+        author,
+        date: postDate,
+        time: '',
+        location: '',
+        marquee: true,
+        marquee_only: true,
+        pinned: false
+      });
+    }
+
+    // 1. Post to Announcement Banner (tile)
     if (destination === 'banner' || destination === 'both') {
       const newNotice = {
         id: `anc-${Date.now()}`,
@@ -139,6 +160,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
         time,
         location,
         marquee,
+        marquee_only: false,
         pinned: false
       };
       onSaveAnnouncement(newNotice);
@@ -167,6 +189,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
     setDate('');
     setLocation('');
     setMarquee(false);
+    setDestination('both');
     handleClose();
   };
 
@@ -252,7 +275,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
             {!editingType && (
             <div className="form-group">
               <label className="form-label">Post Destination *</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.75rem' }}>
                 <button
                   type="button"
                   className={`tab-btn ${destination === 'banner' ? 'active' : ''}`}
@@ -261,6 +284,16 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                 >
                   <Megaphone size={16} style={{ display: 'block', margin: '0 auto 4px auto' }} />
                   <span style={{ fontSize: '0.8rem', fontWeight: 700 }}>Announcement Only</span>
+                </button>
+
+                <button
+                  type="button"
+                  className={`tab-btn ${destination === 'marquee' ? 'active' : ''}`}
+                  style={{ padding: '0.75rem 0.5rem', textAlign: 'center', height: 'auto' }}
+                  onClick={() => setDestination('marquee')}
+                >
+                  <Pin size={16} style={{ display: 'block', margin: '0 auto 4px auto' }} />
+                  <span style={{ fontSize: '0.8rem', fontWeight: 700 }}>Marquee Only</span>
                 </button>
 
                 <button
@@ -283,6 +316,11 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                   <span style={{ fontSize: '0.8rem', fontWeight: 700 }}>BOTH Banner & Calendar</span>
                 </button>
               </div>
+              {destination === 'marquee' && (
+                <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
+                  Shows only in the top scrolling banner (title + date). It won't appear as an announcement tile or on the calendar.
+                </p>
+              )}
             </div>
             )}
 
@@ -349,54 +387,70 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
               />
             </div>
 
-            {/* DATE & TIME (Date required if calendar or both) */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            {/* DATE & TIME (Time/Location hidden for Marquee-only posts) */}
+            {editingType === null && destination === 'marquee' ? (
               <div className="form-group">
-                <label className="form-label">
-                  Event / Notice Date {destination !== 'banner' && '*'}
-                </label>
+                <label className="form-label">Notice Date *</label>
                 <input
                   type="date"
                   className="form-input"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  required={destination !== 'banner'}
                 />
               </div>
+            ) : (
+              <>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div className="form-group">
+                    <label className="form-label">
+                      Event / Notice Date {destination !== 'banner' && '*'}
+                    </label>
+                    <input
+                      type="date"
+                      className="form-input"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                      required={editingType === null && destination !== 'banner'}
+                    />
+                  </div>
 
-              <div className="form-group">
-                <label className="form-label">Time</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  placeholder="e.g. 09:00 AM - 02:00 PM"
-                  value={time}
-                  onChange={(e) => setTime(e.target.value)}
-                />
-              </div>
-            </div>
+                  <div className="form-group">
+                    <label className="form-label">Time</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      placeholder="e.g. 09:00 AM - 02:00 PM"
+                      value={time}
+                      onChange={(e) => setTime(e.target.value)}
+                    />
+                  </div>
+                </div>
 
-            <div className="form-group">
-              <label className="form-label">Location</label>
-              <input
-                type="text"
-                className="form-input"
-                placeholder="e.g. Metro Zoo & Botanical Garden"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-              />
-            </div>
+                <div className="form-group">
+                  <label className="form-label">Location</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="e.g. Metro Zoo & Botanical Garden"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                  />
+                </div>
+              </>
+            )}
 
             {/* CONTENT & DETAILS */}
             <div className="form-group">
-              <label className="form-label">Content & Details *</label>
+              <label className="form-label">
+                Content & Details {!(editingType === null && destination === 'marquee') && '*'}
+              </label>
               <textarea
                 className="form-textarea"
                 rows={3}
                 placeholder="Provide complete post details, instructions, or notes for class families..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                required
+                required={editingType === null && destination !== 'marquee'}
               />
             </div>
 
@@ -419,7 +473,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1.5rem' }}>
               <button type="button" className="btn-secondary" onClick={editingType ? cancelEdit : handleClose}>Cancel</button>
               <button type="submit" className="btn-primary">
-                {editingType ? (<><Pencil size={16} /> Update {editingType === 'event' ? 'Event' : 'Announcement'}</>) : (<><Send size={16} /> Publish Post ({destination === 'banner' ? 'Announcement' : destination === 'calendar' ? 'Calendar' : 'BOTH'})</>)}
+                {editingType ? (<><Pencil size={16} /> Update {editingType === 'event' ? 'Event' : 'Announcement'}</>) : (<><Send size={16} /> Publish Post ({destination === 'banner' ? 'Announcement' : destination === 'marquee' ? 'Marquee' : destination === 'calendar' ? 'Calendar' : 'BOTH'})</>)}
               </button>
             </div>
           </form>
@@ -450,7 +504,7 @@ export default function AdminPortalModal({ isOpen, onClose, onSaveAnnouncement, 
                         <span className="badge badge-general" style={{ fontSize: '0.65rem' }}>{item.category}</span>
                         {item.marquee && (
                           <span style={{ color: 'var(--primary)', display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '0.7rem', fontWeight: 700 }}>
-                            <Megaphone size={11} /> In Marquee
+                            <Megaphone size={11} /> {item.marquee_only ? 'Marquee only' : 'In Marquee'}
                           </span>
                         )}
                         {item.pinned && (

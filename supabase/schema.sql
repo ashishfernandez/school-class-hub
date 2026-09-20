@@ -12,16 +12,18 @@ create table if not exists public.announcements (
   date       text,               -- stored as 'YYYY-MM-DD'
   time       text,
   location   text,
-  pinned     boolean default false,
-  marquee    boolean default false,
-  position   integer default 0,  -- controls order shown on the main page
-  created_at timestamptz default now()
+  pinned       boolean default false,
+  marquee      boolean default false,
+  marquee_only boolean default false, -- shows ONLY in the top banner, not as a tile
+  position     integer default 0,  -- controls order shown on the main page
+  created_at   timestamptz default now()
 );
 
 -- If the announcements table already exists from an earlier version, add the
 -- new columns (safe to run repeatedly):
-alter table public.announcements add column if not exists time     text;
-alter table public.announcements add column if not exists location text;
+alter table public.announcements add column if not exists time         text;
+alter table public.announcements add column if not exists location     text;
+alter table public.announcements add column if not exists marquee_only boolean default false;
 
 -- ============================== EVENTS ================================
 create table if not exists public.events (
