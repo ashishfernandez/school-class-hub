@@ -3,6 +3,18 @@ import { X, Calendar as CalendarIcon, MapPin, Clock, Plus, Bell } from 'lucide-r
 import { calculateReminderDate, formatDateString } from '../utils/whatsappHelper';
 import { linkify } from '../utils/linkify';
 
+// Map a category to its themed badge color class (matches the rest of the app).
+const getBadgeClass = (category) => {
+  const cat = (category || '').toLowerCase();
+  if (cat === 'field trip') return 'badge-field-trip';
+  if (cat === 'class event') return 'badge-class-event';
+  if (cat === 'school event') return 'badge-school-event';
+  if (cat === 'for teacher') return 'badge-for-teacher';
+  if (cat === 'p/t conference') return 'badge-pt-conference';
+  if (cat === 'photo day') return 'badge-photo-day';
+  return 'badge-other';
+};
+
 export default function EventModal({ isOpen, onClose, selectedEvent, isCreateMode, onSaveEvent, userPhone }) {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('Field Trip');
@@ -158,7 +170,7 @@ export default function EventModal({ isOpen, onClose, selectedEvent, isCreateMod
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <span className="badge badge-general">{selectedEvent.category}</span>
+          <span className={`badge ${getBadgeClass(selectedEvent.category)}`}>{selectedEvent.category}</span>
           <button className="btn-icon" onClick={onClose}><X size={18} /></button>
         </div>
 
