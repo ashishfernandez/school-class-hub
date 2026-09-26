@@ -53,6 +53,15 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
   // All events are shown (category filtering removed)
   const filteredEvents = events;
 
+  // Events that fall within the currently displayed month/year, sorted by date.
+  // Used by the agenda/list view so it matches the month shown in the header.
+  const monthEvents = filteredEvents
+    .filter(e => {
+      const p = parseLocalDate(e.date);
+      return p && p.getFullYear() === year && p.getMonth() === month;
+    })
+    .sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+
   const getEventsForDay = (dayNumber) => {
     if (!dayNumber) return [];
     const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(dayNumber).padStart(2, '0')}`;
@@ -176,12 +185,12 @@ export default function CalendarSection({ events, onAddEventClick, onSelectEvent
         ) : (
           /* View Mode: Agenda List */
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {filteredEvents.length === 0 ? (
+            {monthEvents.length === 0 ? (
               <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>
-                No upcoming events for selected filter.
+                No events in {monthNames[month]} {year}.
               </div>
             ) : (
-              filteredEvents.map(evt => {
+              monthEvents.map(evt => {
                 const style = getCategoryColor(evt.category);
                 const parsed = parseLocalDate(evt.date);
                 const monthAbbr = parsed ? MONTHS_ABBR[parsed.getMonth()] : '';
